@@ -11,6 +11,12 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "var(--primary)",
+        secondary: "var(--secondary)",
+      },
+      fontFamily: {
+        noah: ["var(--font-noah)"],
+        IvyPresto: ["var(--font-ivy-presto)"],
       },
     },
   },
