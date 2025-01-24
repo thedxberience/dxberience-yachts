@@ -13,6 +13,8 @@ export default {
         foreground: "var(--foreground)",
         primary: "var(--primary)",
         secondary: "var(--secondary)",
+        tertiary: "var(--tertiary)",
+        text_orange: "var(--text-orange)"
       },
       fontFamily: {
         noah: ["var(--font-noah)"],

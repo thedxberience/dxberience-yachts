@@ -1,9 +1,10 @@
+import YachListingCard from "@/components/yachtListings/YachListingCard";
 import React from "react";
 
 const YachtListings = () => {
   return (
-    <section className="flex justify-center items-center w-full py-7 xl:py-24">
-      <div className="yacht-listings w-11/12 flex flex-col justify-center items-center gap-5">
+    <section className="flex flex-col justify-center items-center w-full py-7 xl:py-24 gap-7">
+      <div className="yacht-listings-header w-11/12 flex flex-col justify-center items-center gap-5">
         <h2 className="text-3xl xl:text-7xl text-center font-IvyPresto font-semibold text-primary">
           Sail in Style: Luxury Yachts at Your Fingertips
         </h2>
@@ -14,6 +15,17 @@ const YachtListings = () => {
           private getaway, a celebration, or a corporate retreat, we have the
           perfect vessel for your journey.
         </p>
+      </div>
+      <div className="yacht-listings-container w-full flex justify-center items-center">
+        <div className="w-11/12 yacht-listings">
+          <YachListingCard />
+          <YachListingCard />
+          <YachListingCard />
+          <YachListingCard />
+          <YachListingCard />
+          <YachListingCard />
+          <YachListingCard />
+        </div>
       </div>
     </section>
   );
