@@ -1,5 +1,5 @@
 "use client";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import FormInput from "../shared/FormInput";
 import CustomButton from "../shared/CustomButton";
 

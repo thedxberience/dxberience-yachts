@@ -11,9 +11,9 @@ const YachtListings = () => {
         <p className="text-sm xl:text-lg text-center text-secondary">
           Experience the pinnacle of luxury on the open waters. Browse our
           curated selection of exclusive yachts, each designed to offer
-          unmatched elegance, comfort, and adventure. Whether you're planning a
-          private getaway, a celebration, or a corporate retreat, we have the
-          perfect vessel for your journey.
+          unmatched elegance, comfort, and adventure. Whether you&apos;re
+          planning a private getaway, a celebration, or a corporate retreat, we
+          have the perfect vessel for your journey.
         </p>
       </div>
       <div className="yacht-listings-container w-full flex justify-center items-center">

@@ -131,7 +131,7 @@ function FormInput({
             {/* Custom checkbox */}
             <div
               className="w-5 h-5 flex-shrink-0 bg-white border-2 border-gray-300 rounded-md relative transition-colors flex items-center justify-center"
-              onClick={(e) => {
+              onClick={() => {
                 setIsChecked((prev) => {
                   const newValue = !prev;
                   setValue(name, newValue);
