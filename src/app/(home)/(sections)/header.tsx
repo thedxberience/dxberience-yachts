@@ -17,10 +17,10 @@ const Header = () => {
             />
           </div>
           <div className="header-text-container z-10 w-9/12 xl:w-7/12 h-full flex flex-col justify-center items-start gap-6 lg:-ml-28">
-            <h1 className="header-text text-[32px] font-semibold leading-10 lg:text-8xl lg:leading-[110px] font-IvyPresto text-foreground">
+            <h1 className="header-text text-[32px] font-semibold leading-10 lg:text-8xl lg:leading-[110px] font-IvyPresto text-foreground-regular">
               Exclusive Yachts for luxury sailing adventure
             </h1>
-            <p className="lg:text-lg font-noah w-11/12 xl:w-7/12 text-foreground">
+            <p className="lg:text-lg font-noah w-11/12 xl:w-7/12 text-foreground-regular">
               Our carefully curated selection of premium yachts ensures you
               experience the ultimate in opulence and comfort on the open sea.
             </p>

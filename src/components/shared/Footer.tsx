@@ -60,13 +60,13 @@ function Footer() {
 
       <div className="absolute inset-0 bg-[#171010] bg-opacity-90 z-10" />
       <div className="relative z-20 text-white">
-        <div className="px-8 2xl:flex justify-center">
-          <h1 className="py-2 text-2xl font-bold font-IvyPresto ">
+        <div className="px-8 flex justify-center">
+          <h1 className="py-2 text-2xl font-bold font-IvyPresto text-white text-center">
             No need to think, just experience
           </h1>
         </div>
 
-        <div className="flex justify-center items-center text-sm lg:gap-[80px] border-t-[1px] border-b-[1px] h-[112.01px] 2xl:h-[252.01px] border-white">
+        <div className="flex justify-center items-center text-sm lg:gap-[80px] border-t-[1px] border-b-[1px] h-[200.01px] 2xl:h-[252.01px] border-white">
           <div className="flex flex-col items-center p-4 gap-5">
             <span>CONTACT US</span>
             <Image
