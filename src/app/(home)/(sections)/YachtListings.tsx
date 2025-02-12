@@ -1,7 +1,92 @@
+"use client";
 import YachListingCard from "@/components/yachtListings/YachListingCard";
+import { prices } from "@/data/types";
+import { makeRequest } from "@/utils/axios";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
+type Yacht = {
+  name: string;
+  slug: string;
+  thumbnail: {
+    image: string;
+    altText: string;
+  };
+  length: number;
+  prices: prices[];
+  cabins: number;
+  capacity: number;
+  builder: string;
+  built: number;
+};
+
 const YachtListings = () => {
+  const { data, isLoading, isError, isSuccess, error } = useQuery({
+    queryKey: ["yachtListings"],
+    queryFn: async () => {
+      const res = await makeRequest("/yachts");
+      console.log(res);
+      return res;
+    },
+  });
+
+  const handleShowYachtListings = () => {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center items-center">
+          <Image
+            src={"/loader.svg"}
+            className="animate-spin"
+            alt="loader"
+            width={48}
+            height={48}
+          />
+        </div>
+      );
+    } else if (isError) {
+      return (
+        <div>
+          <p>Oops! Something went wrong please try again later!</p>
+          <p>{error.message}</p>
+        </div>
+      );
+    } else if (data.length == 0) {
+      return (
+        <div className="flex justify-center items-center">
+          <p>No yachts listed at the moment. Kindly check back later.</p>
+        </div>
+      );
+    } else if (isSuccess) {
+      return (
+        <div className="w-11/12 yacht-listings">
+          {data?.map((yacht: Yacht) => {
+            const pricePerHour = yacht.prices.find(
+              (price) => price.type.toLowerCase() === "per hour"
+            );
+            return (
+              <Link href={`/yacht/${yacht.slug}`} key={yacht.slug}>
+                <YachListingCard
+                  key={yacht.slug}
+                  name={yacht.name}
+                  imageUrl={yacht.thumbnail.image}
+                  imageAlt={yacht.thumbnail.altText}
+                  length={yacht.length}
+                  pricePerHour={pricePerHour?.price}
+                  builder={yacht.builder}
+                  cabins={yacht.cabins}
+                  capacity={yacht.capacity}
+                  built={yacht.built}
+                />
+              </Link>
+            );
+          })}
+        </div>
+      );
+    }
+  };
+
   return (
     <section className="flex flex-col justify-center items-center w-full py-7 xl:py-24 gap-7">
       <div className="yacht-listings-header w-11/12 flex flex-col justify-center items-center gap-5">
@@ -17,15 +102,7 @@ const YachtListings = () => {
         </p>
       </div>
       <div className="yacht-listings-container w-full flex justify-center items-center">
-        <div className="w-11/12 yacht-listings">
-          <YachListingCard />
-          <YachListingCard />
-          <YachListingCard />
-          <YachListingCard />
-          <YachListingCard />
-          <YachListingCard />
-          <YachListingCard />
-        </div>
+        {handleShowYachtListings()}
       </div>
     </section>
   );

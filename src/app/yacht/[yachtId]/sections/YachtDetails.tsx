@@ -1,8 +1,65 @@
 import CustomButton from "@/components/shared/CustomButton";
+import { prices, YachtDetailItem } from "@/data/types";
 import Image from "next/image";
 import React from "react";
 
-const YachtDetails = () => {
+type YachtDetailsProps = {
+  prices: prices[];
+  description: string;
+  length: number;
+  cabins: number;
+  capacity: number;
+  buildDate: number;
+};
+
+const YachtDetails = ({
+  buildDate,
+  cabins,
+  capacity,
+  description,
+  length,
+  prices,
+}: YachtDetailsProps) => {
+  const getDetailsImage = (itemType: string) => {
+    switch (itemType) {
+      case "length":
+        return "/ruler.svg";
+      case "capacity":
+        return "/profile.svg";
+      case "cabins":
+      case "built":
+        return "/setting.svg";
+      default:
+        return "";
+    }
+  };
+
+  const getYachtCardDetails = () => {
+    const yachtDetails: YachtDetailItem = {
+      length: length,
+      cabins: cabins,
+      capacity: capacity,
+      built: buildDate,
+    };
+
+    const yachtDetailsArray = [];
+
+    for (const key in yachtDetails) {
+      if (yachtDetails[key]) {
+        const arrayItem = {
+          item: key,
+          value: yachtDetails[key],
+          image: getDetailsImage(key),
+        };
+        yachtDetailsArray.push(arrayItem);
+      }
+    }
+
+    console.log(yachtDetailsArray);
+
+    return yachtDetailsArray;
+  };
+
   return (
     <section className="w-full flex flex-col justify-center items-center">
       <div className="w-10/12 flex flex-col justify-center items-center">
@@ -25,23 +82,32 @@ const YachtDetails = () => {
               Top Features
             </h2>
             <div className="price-details flex flex-col lg:flex-row justify-center items-center gap-4 lg:gap-8">
-              <div className="price flex justify-center items-center gap-2">
-                <Image src={"/clock.svg"} alt="clock" width={24} height={24} />
-                <p className="lg:text-lg">Price</p>
-                <p className="font-bold">
-                  AED 1,400/{" "}
-                  <span className="font-normal text-sm"> per hr</span>
-                </p>
-              </div>
-              <div className="w-full h-[1px] lg:w-[1px] lg:h-[61.52px] bg-[#888888]"></div>
-              <div className="price flex justify-center items-center gap-2">
-                <Image src={"/clock.svg"} alt="clock" width={24} height={24} />
-                <p className="lg:text-lg">Price</p>
-                <p className="font-bold">
-                  AED 1,400/{" "}
-                  <span className="font-normal text-sm"> per day</span>
-                </p>
-              </div>
+              {prices.map((price, index) => {
+                return (
+                  <>
+                    <div
+                      key={index}
+                      className="price flex justify-center items-center gap-2"
+                    >
+                      <Image
+                        src={"/clock.svg"}
+                        alt="clock"
+                        width={24}
+                        height={24}
+                      />
+                      <p className="lg:text-lg">Price</p>
+                      <p className="font-bold">
+                        AED {price.price}/{" "}
+                        <span className="font-normal text-sm">
+                          {" "}
+                          {price.type}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="line-divider w-full h-[1px] lg:w-[1px] lg:h-[61.52px] bg-[#888888]"></div>
+                  </>
+                );
+              })}
               <div className="flex justify-center items-center gap-3">
                 <Image
                   src={"/phone.svg"}
@@ -60,41 +126,26 @@ const YachtDetails = () => {
               </div>
             </div>
             <div className="w-11/12">
-              <p className="text-pretty">
-                The Lamborghini 63 Yacht is a masterpiece of engineering and
-                luxury, blending the elegance of yacht craftsmanship with the
-                high-performance spirit of Lamborghini. Designed to reflect the
-                iconic styling and precision of the Lamborghini marque, this
-                yacht boasts sleek, angular lines, cutting-edge technology, and
-                unmatched performance on the water.
-              </p>
+              <p className="text-pretty text-center">{description}</p>
             </div>
-            <div className="flex justify-center items-center gap-10">
-              <div className="specs-item flex flex-col justify-center items-center gap-3">
-                <Image src={"/ruler.svg"} alt="Ruler" width={24} height={24} />
-                <p className="text-lg">Length</p>
-                <p className="font-bold text-xl">20m</p>
-              </div>
-              <div className="specs-item flex flex-col justify-center items-center gap-3">
-                <Image
-                  src={"/profile.svg"}
-                  alt="Ruler"
-                  width={24}
-                  height={24}
-                />
-                <p className="text-lg">Length</p>
-                <p className="font-bold text-xl">20m</p>
-              </div>
-              <div className="specs-item flex flex-col justify-center items-center gap-3">
-                <Image
-                  src={"/setting.svg"}
-                  alt="Ruler"
-                  width={24}
-                  height={24}
-                />
-                <p className="text-lg">Length</p>
-                <p className="font-bold text-xl">20m</p>
-              </div>
+            <div className="flex justify-center items-center gap-5 lg:gap-10 flex-wrap lg:flex-nowrap">
+              {getYachtCardDetails().map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="specs-item flex flex-col justify-center items-center gap-3"
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.item}
+                      width={24}
+                      height={24}
+                    />
+                    <p className="text-lg">{item.item}</p>
+                    <p className="font-bold text-xl">{item.value}</p>
+                  </div>
+                );
+              })}
             </div>
             <div className="flex justify-center items-center w-full">
               <CustomButton btnName="Book Now" />

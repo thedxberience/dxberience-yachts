@@ -1,19 +1,33 @@
 import Image from "next/image";
 
-const YachtCarouselImage = () => {
+type YachtCarouselImageProps = {
+  imageUrl: string;
+  imageAlt: string;
+  galleryLength: number;
+  currentGalleryIndex: number;
+};
+
+const YachtCarouselImage = ({
+  imageAlt,
+  imageUrl,
+  galleryLength,
+  currentGalleryIndex,
+}: YachtCarouselImageProps) => {
   return (
-    <div className="flex flex-col justify-between gap-4">
-      <div className="image-container lg:w-[43.906vw] lg:h-[440px]">
+    <div className="flex flex-col justify-between gap-4 lg:max-w-[43.906vw]">
+      <div className="image-container w-[95svw] h-[190.67px] relative lg:w-[43.906vw] lg:h-[440px]">
         <Image
-          src={"/images/carousel-image.png"}
-          alt="Carousel Image"
+          src={imageUrl}
+          alt={imageAlt ? imageAlt : "Yacht image"}
           fill
-          className="object-contain"
+          className="object-cover"
         />
       </div>
-      <div className="flex justify-between items-center w-full">
-        <p>1/11</p>
-        <p className="text-lg">Beautiful dining setting</p>
+      <div className="flex justify-between items-center[98svw] ">
+        <p>
+          {currentGalleryIndex}/{galleryLength}
+        </p>
+        <p className="text-lg">{imageAlt}</p>
       </div>
     </div>
   );

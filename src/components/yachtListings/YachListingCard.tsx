@@ -1,34 +1,66 @@
 import Image from "next/image";
 import CustomButton from "../shared/CustomButton";
+import { YachListingCardProps, YachtDetailItem } from "@/data/types";
 
-const YachListingCard = () => {
+const YachListingCard = ({
+  length,
+  pricePerHour,
+  name,
+  imageUrl,
+  imageAlt,
+  builder,
+  cabins,
+  capacity,
+  built,
+}: YachListingCardProps) => {
+  const getYachtCardDetails = () => {
+    const yachtDetails: YachtDetailItem = {
+      length: length,
+      builder: builder,
+      cabins: cabins,
+      capacity: capacity,
+      built: built,
+    };
+
+    const yachtDetailsArray: YachtDetailItem[] = [];
+
+    for (const key in yachtDetails) {
+      const yachtDetailItem: YachtDetailItem = {};
+      if (yachtDetails[key]) {
+        yachtDetailItem[key] = yachtDetails[key];
+        yachtDetailsArray.push(yachtDetailItem);
+      }
+    }
+
+    console.log(yachtDetailsArray);
+
+    return yachtDetailsArray;
+  };
+
   return (
     <div className="yacht-listing-container">
       <div className="yacht-listing-card">
         <div className="yacht-img relative min-w-[358px] w-full h-[220px] xl:min-w-[407px] xl:h-[246px]">
-          <Image
-            src={"/images/yacht-listing-img.jpeg"}
-            alt="Yacht Listing"
-            className="object-cover"
-            fill
-          />
+          <Image src={imageUrl} alt={imageAlt} className="object-cover" fill />
         </div>
         <div className="w-full flex justify-center items-center bg-primary text-white py-6">
           <div className="w-11/12 flex flex-col gap-4">
             <div className="yacht-listing-name">
-              <h3 className="text-xl font-IvyPresto font-semibold">
-                Madison A-48 Yacht
+              <h3 className="text-xl font-IvyPresto font-semibold text-white">
+                {name}
               </h3>
             </div>
             <div className="yacht-listing-specs">
-              {Array.from([0, 1, 2, 3]).map((item) => {
+              {getYachtCardDetails().map((item, index) => {
                 return (
                   <div
-                    key={item}
-                    className="flex flex-col justify-center items-center"
+                    key={index}
+                    className="flex flex-col justify-center items-start text-left"
                   >
-                    <p className="text-sm">Length</p>
-                    <h4 className="font-bold text-lg xl:text-xl">300ft</h4>
+                    <p className="text-sm capitalize">{Object.keys(item)}</p>
+                    <h4 className="font-bold text-lg xl:text-xl text-white text-balance">
+                      {Object.values(item)}
+                    </h4>
                   </div>
                 );
               })}
@@ -45,7 +77,7 @@ const YachListingCard = () => {
                 />
                 <p className="text-sm">Price per hour</p>
                 <i className="text-text_orange font-bold text-xs">
-                  Contact us to know
+                  {pricePerHour ? pricePerHour : "Contact us to know"}
                 </i>
               </div>
               <div className="flex justify-center items-center gap-3">

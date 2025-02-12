@@ -53,7 +53,7 @@ body {
 
 .yacht-listing-specs{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(40px, 50px));
+  grid-template-columns: repeat(auto-fit, minmax(40px, 80px));
   justify-content: space-between;
   align-items: center;
 }

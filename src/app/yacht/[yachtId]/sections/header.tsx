@@ -1,8 +1,25 @@
 import Navbar from "@/components/shared/Navbar";
 import BookingForm from "@/components/yacht/BookingForm";
+import { prices } from "@/data/types";
 import Image from "next/image";
 
-const YachtDetailPageHeader = () => {
+type YachtDetailPageHeaderProps = {
+  yachtName: string;
+  yachtImageUrl: string;
+  yachtImageAlt: string;
+  yachtDescription: string;
+  slug: string;
+  prices: prices[];
+};
+
+const YachtDetailPageHeader = ({
+  yachtName,
+  yachtImageAlt,
+  yachtImageUrl,
+  yachtDescription,
+  slug,
+  prices,
+}: YachtDetailPageHeaderProps) => {
   return (
     <header className="yacht-detail-page w-full min-h-[750px] h-full lg:h-[800px]">
       <Navbar />
@@ -10,8 +27,8 @@ const YachtDetailPageHeader = () => {
         <div className="overlay absolute"></div>
         <div className="bg-image relative w-full min-h-[750px] h-full lg:h-[800px]">
           <Image
-            src={"/images/yachts-listing-page-header.png"}
-            alt="X2 Golden Riviera Sport 90"
+            src={yachtImageUrl}
+            alt={yachtImageAlt || "Yacht image"}
             fill
             className="object-cover"
           />
@@ -21,14 +38,19 @@ const YachtDetailPageHeader = () => {
         <div className="w-11/12 h-full flex justify-center items-center">
           <div className="relative hidden xl:flex w-[73.906vw] h-[55vh] overflow-hidden">
             <Image
-              src={"/images/yachts-listing-page-header.png"}
-              alt="X2 Golden Riviera Sport 90"
+              src={yachtImageUrl}
+              alt={yachtImageAlt || "Yacht image"}
               fill
               className="object-cover yacht-header-img"
             />
           </div>
           <div className="header-form-container w-full xl:w-[681px] h-full flex flex-col justify-center items-start gap-6 xl:-ml-28">
-            <BookingForm />
+            <BookingForm
+              slug={slug}
+              yachtName={yachtName}
+              yachtDescription={yachtDescription}
+              prices={prices}
+            />
           </div>
         </div>
       </div>

@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.66.0",
+    "@tanstack/react-query-devtools": "^5.66.0",
+    "axios": "^1.7.9",
     "embla-carousel-react": "^8.5.2",
     "next": "15.1.5",
     "react": "^19.0.0",

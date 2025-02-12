@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 
 import "./globals.css";
+import "./css/base.css";
+import "./css/embla.css";
+import GlobalProvider from "@/components/providers/GlobalProvider";
 
 const IvyPresto = localFont({
   src: "../../public/fonts/Ivy Presto/Ivy Presto 3.otf",
@@ -31,7 +34,7 @@ export default function RootLayout({
       <body
         className={`${IvyPresto.variable} ${noah.variable} font-noah antialiased`}
       >
-        {children}
+        <GlobalProvider>{children}</GlobalProvider>
       </body>
     </html>
   );
