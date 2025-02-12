@@ -37,7 +37,7 @@ const YachtListings = () => {
       return (
         <div className="flex justify-center items-center">
           <Image
-            src={"/loader.svg"}
+            src={"/loader_black.svg"}
             className="animate-spin"
             alt="loader"
             width={48}
