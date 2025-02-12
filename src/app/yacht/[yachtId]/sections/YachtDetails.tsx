@@ -55,7 +55,7 @@ const YachtDetails = ({
       }
     }
 
-    console.log(yachtDetailsArray);
+    // console.log(yachtDetailsArray);
 
     return yachtDetailsArray;
   };

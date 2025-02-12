@@ -61,7 +61,7 @@ const BookingForm = ({
     },
   });
 
-  console.log(prices);
+  // console.log(prices);
 
   const formValues = watch();
 

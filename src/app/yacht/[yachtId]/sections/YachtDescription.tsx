@@ -33,13 +33,6 @@ const YachtDescription = ({
           <div className="w-full flex flex-col justify-center items-center">
             <div className="w-full lg:w-8/12 flex flex-col justify-start items-start gap-6">
               <p className="text-sm">{yachtDescription}</p>
-              <p className="text-sm">
-                The exterior exudes power and sophistication, featuring
-                aerodynamic contours inspired by Lamborghini supercars, with
-                carbon fiber construction ensuring a lightweight yet robust
-                structure. Its metallic finish and customizable color options
-                add a touch of exclusivity.
-              </p>
             </div>
           </div>
         </div>

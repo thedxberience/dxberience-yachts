@@ -20,3 +20,19 @@ export  type YachListingCardProps = {
 export  type YachtDetailItem = {
     [key: string]: number | string | undefined;
   };
+
+
+  export type Yacht = {
+    name: string;
+    slug: string;
+    thumbnail: {
+      image: string;
+      altText: string;
+    };
+    length: number;
+    prices: prices[];
+    cabins: number;
+    capacity: number;
+    builder: string;
+    built: number;
+  };

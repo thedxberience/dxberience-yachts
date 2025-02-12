@@ -1,26 +1,11 @@
 "use client";
 import YachListingCard from "@/components/yachtListings/YachListingCard";
-import { prices } from "@/data/types";
+import { Yacht } from "@/data/types";
 import { makeRequest } from "@/utils/axios";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
-type Yacht = {
-  name: string;
-  slug: string;
-  thumbnail: {
-    image: string;
-    altText: string;
-  };
-  length: number;
-  prices: prices[];
-  cabins: number;
-  capacity: number;
-  builder: string;
-  built: number;
-};
 
 const YachtListings = () => {
   const { data, isLoading, isError, isSuccess, error } = useQuery({

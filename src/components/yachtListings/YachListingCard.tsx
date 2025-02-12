@@ -32,7 +32,7 @@ const YachListingCard = ({
       }
     }
 
-    console.log(yachtDetailsArray);
+    // console.log(yachtDetailsArray);
 
     return yachtDetailsArray;
   };
@@ -41,7 +41,12 @@ const YachListingCard = ({
     <div className="yacht-listing-container">
       <div className="yacht-listing-card">
         <div className="yacht-img relative min-w-[358px] w-full h-[220px] xl:min-w-[407px] xl:h-[246px]">
-          <Image src={imageUrl} alt={imageAlt} className="object-cover" fill />
+          <Image
+            src={imageUrl}
+            alt={imageAlt || "yacht img"}
+            className="object-cover"
+            fill
+          />
         </div>
         <div className="w-full flex justify-center items-center bg-primary text-white py-6">
           <div className="w-11/12 flex flex-col gap-4">
@@ -77,7 +82,7 @@ const YachListingCard = ({
                 />
                 <p className="text-sm">Price per hour</p>
                 <i className="text-text_orange font-bold text-xs">
-                  {pricePerHour ? pricePerHour : "Contact us to know"}
+                  {pricePerHour ? "AED " + pricePerHour : "Contact us to know"}
                 </i>
               </div>
               <div className="flex justify-center items-center gap-3">
