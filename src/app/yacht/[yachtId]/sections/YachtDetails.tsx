@@ -1,3 +1,4 @@
+import { currencyFormat } from "@/app/utils/helpers";
 import CustomButton from "@/components/shared/CustomButton";
 import { prices, YachtDetailItem } from "@/data/types";
 import Image from "next/image";
@@ -97,7 +98,8 @@ const YachtDetails = ({
                       />
                       <p className="lg:text-lg">Price</p>
                       <p className="font-bold">
-                        AED {price.price}/{" "}
+                        <span className="text-sm font-normal">From</span> AED{" "}
+                        {currencyFormat(price.price)}{" "}
                         <span className="font-normal text-sm">
                           {" "}
                           {price.type}
@@ -148,7 +150,7 @@ const YachtDetails = ({
               })}
             </div>
             <div className="flex justify-center items-center w-full">
-              <CustomButton btnName="Book Now" />
+              <CustomButton btnName="Book Now" isLink href="#header-form" />
             </div>
           </div>
         </div>

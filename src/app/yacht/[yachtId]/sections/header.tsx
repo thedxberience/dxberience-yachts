@@ -44,7 +44,10 @@ const YachtDetailPageHeader = ({
               className="object-cover yacht-header-img"
             />
           </div>
-          <div className="header-form-container w-full xl:w-[681px] h-full flex flex-col justify-center items-start gap-6 xl:-ml-28">
+          <div
+            id="header-form"
+            className="header-form-container w-full xl:w-[681px] h-full flex flex-col justify-center items-start gap-6 xl:-ml-28"
+          >
             <BookingForm
               slug={slug}
               yachtName={yachtName}

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import CustomButton from "../shared/CustomButton";
 import { YachListingCardProps, YachtDetailItem } from "@/data/types";
+import { currencyFormat } from "@/app/utils/helpers";
+import Link from "next/link";
 
 const YachListingCard = ({
   length,
@@ -28,6 +30,9 @@ const YachListingCard = ({
       const yachtDetailItem: YachtDetailItem = {};
       if (yachtDetails[key]) {
         yachtDetailItem[key] = yachtDetails[key];
+        if (key === "length") {
+          yachtDetailItem[key] += " m";
+        }
         yachtDetailsArray.push(yachtDetailItem);
       }
     }
@@ -40,11 +45,11 @@ const YachListingCard = ({
   return (
     <div className="yacht-listing-container">
       <div className="yacht-listing-card">
-        <div className="yacht-img relative min-w-[358px] w-full h-[220px] xl:min-w-[407px] xl:h-[246px]">
+        <div className="yacht-img overflow-hidden relative min-w-[358px] w-full h-[220px] xl:min-w-[407px] xl:h-[246px]">
           <Image
             src={imageUrl}
             alt={imageAlt || "yacht img"}
-            className="object-cover"
+            className="object-cover scale-150"
             fill
           />
         </div>
@@ -82,17 +87,21 @@ const YachListingCard = ({
                 />
                 <p className="text-sm">Price per hour</p>
                 <i className="text-text_orange font-bold text-xs">
-                  {pricePerHour ? "AED " + pricePerHour : "Contact us to know"}
+                  {pricePerHour
+                    ? "From AED " + currencyFormat(pricePerHour)
+                    : "Contact us to know"}
                 </i>
               </div>
               <div className="flex justify-center items-center gap-3">
-                <Image
-                  src={"/phone.svg"}
-                  alt="phone"
-                  width={24}
-                  height={24}
-                  className="object-cover"
-                />
+                <Link href="tel:+971585787558">
+                  <Image
+                    src={"/phone.svg"}
+                    alt="phone"
+                    width={24}
+                    height={24}
+                    className="object-cover"
+                  />
+                </Link>
                 <Image
                   src={"/footer_whatsapp.svg"}
                   alt="whatsapp"

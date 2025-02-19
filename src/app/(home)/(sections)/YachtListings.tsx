@@ -48,7 +48,7 @@ const YachtListings = () => {
         <div className="w-11/12 yacht-listings">
           {data?.map((yacht: Yacht) => {
             const pricePerHour = yacht.prices.find(
-              (price) => price.type.toLowerCase() === "per hour"
+              (price) => price.type.toLowerCase() === "hourly"
             );
             return (
               <Link href={`/yacht/${yacht.slug}`} key={yacht.slug}>

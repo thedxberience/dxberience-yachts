@@ -17,7 +17,11 @@ const Navbar = () => {
           </Link>
         </div>
         <div>
-          <CustomButton btnName="Book Now" />
+          <CustomButton
+            btnName="Contact us"
+            isLink
+            href="https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+your+yachts+for+rent"
+          />
         </div>
       </div>
     </nav>
