@@ -2,6 +2,7 @@ import { currencyFormat } from "@/app/utils/helpers";
 import CustomButton from "@/components/shared/CustomButton";
 import { prices, YachtDetailItem } from "@/data/types";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 type YachtDetailsProps = {
@@ -111,20 +112,24 @@ const YachtDetails = ({
                 );
               })}
               <div className="flex justify-center items-center gap-3">
-                <Image
-                  src={"/phone.svg"}
-                  alt="phone"
-                  width={24}
-                  height={24}
-                  className="object-cover"
-                />
-                <Image
-                  src={"/footer_whatsapp.svg"}
-                  alt="whatsapp"
-                  width={24}
-                  height={24}
-                  className="object-cover"
-                />
+                <Link href="tel:+971585787558">
+                  <Image
+                    src={"/phone.svg"}
+                    alt="phone"
+                    width={24}
+                    height={24}
+                    className="object-cover"
+                  />
+                </Link>
+                <Link href="https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+your+yachts+for+rent">
+                  <Image
+                    src={"/footer_whatsapp.svg"}
+                    alt="whatsapp"
+                    width={24}
+                    height={24}
+                    className="object-cover"
+                  />
+                </Link>
               </div>
             </div>
             <div className="w-11/12">
