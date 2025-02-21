@@ -14,6 +14,7 @@ const YachListingCard = ({
   cabins,
   capacity,
   built,
+  slug,
 }: YachListingCardProps) => {
   const getYachtCardDetails = () => {
     const yachtDetails: YachtDetailItem = {
@@ -45,20 +46,25 @@ const YachListingCard = ({
   return (
     <div className="yacht-listing-container">
       <div className="yacht-listing-card">
-        <div className="yacht-img overflow-hidden relative min-w-[358px] w-full h-[220px] xl:min-w-[407px] xl:h-[246px]">
-          <Image
-            src={imageUrl}
-            alt={imageAlt || "yacht img"}
-            className="object-cover scale-150"
-            fill
-          />
-        </div>
+        <Link href={`/yacht/${slug}`}>
+          <div className="yacht-img overflow-hidden relative min-w-[358px] w-full h-[220px] xl:min-w-[407px] xl:h-[246px]">
+            <Image
+              src={imageUrl}
+              alt={imageAlt || "yacht img"}
+              className="object-cover scale-150"
+              fill
+            />
+          </div>
+        </Link>
+
         <div className="w-full flex justify-center items-center bg-primary text-white py-6">
           <div className="w-11/12 flex flex-col gap-4">
             <div className="yacht-listing-name">
-              <h3 className="text-xl font-IvyPresto font-semibold text-white">
-                {name}
-              </h3>
+              <Link href={`/yacht/${slug}`}>
+                <h3 className="text-xl font-IvyPresto font-semibold text-white">
+                  {name}
+                </h3>
+              </Link>
             </div>
             <div className="yacht-listing-specs">
               {getYachtCardDetails().map((item, index) => {
@@ -93,7 +99,7 @@ const YachListingCard = ({
                 </i>
               </div>
               <div className="flex justify-center items-center gap-3">
-                <Link href="tel:+971585787558">
+                <a href="tel:+971585787558">
                   <Image
                     src={"/phone.svg"}
                     alt="phone"
@@ -101,8 +107,8 @@ const YachListingCard = ({
                     height={24}
                     className="object-cover"
                   />
-                </Link>
-                <Link href="https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+your+yachts+for+rent">
+                </a>
+                <a href="https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+your+yachts+for+rent">
                   <Image
                     src={"/footer_whatsapp.svg"}
                     alt="whatsapp"
@@ -110,11 +116,11 @@ const YachListingCard = ({
                     height={24}
                     className="object-cover"
                   />
-                </Link>
+                </a>
               </div>
             </div>
             <div>
-              <CustomButton btnName="Book Now" />
+              <CustomButton btnName="Book Now" isLink href={`/yacht/${slug}`} />
             </div>
           </div>
         </div>

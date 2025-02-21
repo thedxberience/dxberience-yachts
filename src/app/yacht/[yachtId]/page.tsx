@@ -36,7 +36,6 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
       `${process.env.BASE_API_URL}/yachts/${yachtId}`
     );
     data = await yachtDetailsReq.json();
-    console.log(data);
   } catch (error) {
     console.error("Error loading yacht details:", error);
     return (

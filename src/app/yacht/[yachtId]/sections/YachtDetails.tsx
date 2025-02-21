@@ -86,7 +86,10 @@ const YachtDetails = ({
             <div className="price-details flex flex-col lg:flex-row justify-center items-center gap-4 lg:gap-8">
               {prices.map((price, index) => {
                 return (
-                  <>
+                  <div
+                    className="price-container flex flex-col lg:flex-row justify-center items-center gap-2"
+                    key={index}
+                  >
                     <div
                       key={index}
                       className="price flex justify-center items-center gap-2"
@@ -108,7 +111,7 @@ const YachtDetails = ({
                       </p>
                     </div>
                     <div className="line-divider w-full h-[1px] lg:w-[1px] lg:h-[61.52px] bg-[#888888]"></div>
-                  </>
+                  </div>
                 );
               })}
               <div className="flex justify-center items-center gap-3">

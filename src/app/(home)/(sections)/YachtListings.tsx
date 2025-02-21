@@ -1,49 +1,39 @@
-"use client";
 import YachListingCard from "@/components/yachtListings/YachListingCard";
 import { Yacht } from "@/data/types";
-import { makeRequest } from "@/utils/axios";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
-const YachtListings = () => {
-  const { data, isLoading, isError, isSuccess, error } = useQuery({
-    queryKey: ["yachtListings"],
-    queryFn: async () => {
-      const res = await makeRequest("/yachts");
-      console.log(res);
-      return res;
-    },
-  });
+export const revalidate = 60;
 
-  const handleShowYachtListings = () => {
-    if (isLoading) {
-      return (
-        <div className="flex justify-center items-center">
-          <Image
-            src={"/loader_black.svg"}
-            className="animate-spin"
-            alt="loader"
-            width={48}
-            height={48}
-          />
-        </div>
-      );
-    } else if (isError) {
+const YachtListings = async () => {
+  let data: Yacht[];
+  try {
+    const yachtsReq = await fetch(process.env.BASE_API_URL + "/yachts");
+    data = await yachtsReq.json();
+  } catch (error) {
+    if (error instanceof Error) {
       return (
         <div>
           <p>Oops! Something went wrong please try again later!</p>
           <p>{error.message}</p>
         </div>
       );
-    } else if (data.length == 0) {
+    } else {
+      return (
+        <div>
+          <p>Oops! Something went wrong please try again later!</p>
+        </div>
+      );
+    }
+  }
+
+  const handleShowYachtListings = () => {
+    if (data.length == 0) {
       return (
         <div className="flex justify-center items-center">
           <p>No yachts listed at the moment. Kindly check back later.</p>
         </div>
       );
-    } else if (isSuccess) {
+    } else {
       return (
         <div className="w-11/12 yacht-listings">
           {data?.map((yacht: Yacht) => {
@@ -51,20 +41,19 @@ const YachtListings = () => {
               (price) => price.type.toLowerCase() === "hourly"
             );
             return (
-              <Link href={`/yacht/${yacht.slug}`} key={yacht.slug}>
-                <YachListingCard
-                  key={yacht.slug}
-                  name={yacht.name}
-                  imageUrl={yacht.thumbnail.image}
-                  imageAlt={yacht.thumbnail.altText}
-                  length={yacht.length}
-                  pricePerHour={pricePerHour?.price}
-                  builder={yacht.builder}
-                  cabins={yacht.cabins}
-                  capacity={yacht.capacity}
-                  built={yacht.built}
-                />
-              </Link>
+              <YachListingCard
+                key={yacht.slug}
+                name={yacht.name}
+                imageUrl={yacht.thumbnail.image}
+                imageAlt={yacht.thumbnail.altText}
+                length={yacht.length}
+                pricePerHour={pricePerHour?.price}
+                builder={yacht.builder}
+                cabins={yacht.cabins}
+                capacity={yacht.capacity}
+                built={yacht.built}
+                slug={yacht.slug}
+              />
             );
           })}
         </div>

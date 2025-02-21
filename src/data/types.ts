@@ -15,6 +15,7 @@ export  type YachListingCardProps = {
     cabins?: number;
     capacity?: number;
     built?: number;
+    slug: string
   };
   
 export  type YachtDetailItem = {

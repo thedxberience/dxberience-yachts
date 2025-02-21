@@ -62,7 +62,7 @@ const YachtCarousel = ({
               const galleryLength = carouselGallery.length;
               const currentGalleryIndex = index + 1;
               return (
-                <div key={index} className="embla__slide z-10">
+                <div key={currentGalleryIndex} className="embla__slide z-10">
                   <YachtCarouselImage
                     currentGalleryIndex={currentGalleryIndex}
                     galleryLength={galleryLength}
