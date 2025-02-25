@@ -50,7 +50,7 @@ const YachtDetails = ({
       if (yachtDetails[key]) {
         const arrayItem = {
           item: key,
-          value: yachtDetails[key],
+          value: yachtDetails[key] + (key == "length" ? " m" : ""),
           image: getDetailsImage(key),
         };
         yachtDetailsArray.push(arrayItem);
