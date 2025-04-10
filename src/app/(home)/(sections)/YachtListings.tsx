@@ -1,3 +1,4 @@
+import { tryCatch } from "@/app/utils/helpers";
 import YachListingCard from "@/components/yachtListings/YachListingCard";
 import { Yacht } from "@/data/types";
 import React from "react";
@@ -5,26 +6,21 @@ import React from "react";
 export const revalidate = 60;
 
 const YachtListings = async () => {
-  let data: Yacht[];
-  try {
-    const yachtsReq = await fetch(process.env.BASE_API_URL + "/yachts");
-    data = await yachtsReq.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      return (
-        <div>
-          <p>Oops! Something went wrong please try again later!</p>
-          <p>{error.message}</p>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <p>Oops! Something went wrong please try again later!</p>
-        </div>
-      );
-    }
+  const { data: yachtsReq, error } = await tryCatch(
+    fetch(process.env.BASE_API_URL + "/yachts")
+  );
+
+  if (error) {
+    return (
+      <div className="text-center flex flex-col justify-center items-center w-full pt-6">
+        <p>Oops! Something went wrong please try again later!</p>
+        <p>{error.message}</p>
+      </div>
+    );
   }
+
+  const data = (await yachtsReq.json()).result as Yacht[];
+  // console.log("Yacht data:", data);
 
   const handleShowYachtListings = () => {
     if (data.length == 0) {
@@ -36,7 +32,7 @@ const YachtListings = async () => {
     } else {
       return (
         <div className="w-11/12 yacht-listings">
-          {data?.map((yacht: Yacht) => {
+          {data.map((yacht: Yacht) => {
             const pricePerHour = yacht.prices.find(
               (price) => price.type.toLowerCase() === "hourly"
             );

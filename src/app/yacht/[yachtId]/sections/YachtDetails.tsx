@@ -84,7 +84,7 @@ const YachtDetails = ({
               Top Features
             </h2>
             <div className="price-details flex flex-col lg:flex-row justify-center items-center gap-4 lg:gap-8">
-              {prices.map((price, index) => {
+              {prices?.map((price, index) => {
                 return (
                   <div
                     className="price-container flex flex-col lg:flex-row justify-center items-center gap-2"
