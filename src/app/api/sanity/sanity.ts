@@ -4,6 +4,7 @@ type GroqQuery = {
     document: string;
     filters?: string[];
     projection?: string[];
+    sort?: string[];
   };
 
 
@@ -16,18 +17,23 @@ export const sanityClient = createClient({
   })
 
 export function   generateGroqQuery(groqQuery: GroqQuery) {
-    const { document, filters, projection } = groqQuery;
+    const { document, filters, projection, sort } = groqQuery;
 
-    const baseQuery = (filters: string | null) =>
+    const baseQuery = (filters: string | null, sort: string | null) =>
       `*[_type=="${document}" && !(_id in path("drafts.**"))${
         filters ? `&& ${filters}` : ''
-      }]`;
+      }]${
+        sort ? ` | ${sort}` : ''
+      }`;
 
-    const computedFilters = filters ? filters.join(' && ') : null;
+    let computedFilters = filters ? filters.join(' && ') : null;
+
+    // Add sorting to the filters
+    let computedSort = sort ? sort.join(' ') : null;
 
     const computedProjection = projection ? projection.join(', ') : null;
 
-    return `${baseQuery(computedFilters)}${
+    return `${baseQuery(computedFilters, computedSort)}${
       computedProjection ? '{' + computedProjection + '}' : ''
     }`;
   }

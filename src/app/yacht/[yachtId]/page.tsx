@@ -65,7 +65,9 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
     );
   }
 
-  const data = (await response.json()).result[0];
+  const data = await response.json();
+
+  console.log("Yacht data:", data);
 
   if (!data || data.length === 0) {
     return (

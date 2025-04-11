@@ -32,12 +32,19 @@ export async function getBySlug(slug: string){
         return error;
       }
 
-      return result[0];
+      return result[0].result;
 }
 
-export async function getAll(){
+export async function getAll(sort: "asc" | "desc" = "asc"){
+    let sortCommand = ['order(prices[0].price asc)'];
+
+    if (sort == "desc"){
+      sortCommand = ['order(prices[0].price desc)']; 
+    }
+
     const groqQuery = generateGroqQuery({
         document: 'yachts',
+        sort: sortCommand,
         projection: [
           'name',
           '"slug": slug.current',
@@ -49,6 +56,7 @@ export async function getAll(){
           'thumbnail {"image": image.asset->url, "altText": image.alt}',
         ],
       });
+      
 
         const { data: result, error } = await tryCatch(
             sanityClient.fetch(groqQuery)

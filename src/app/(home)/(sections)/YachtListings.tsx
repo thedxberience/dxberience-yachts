@@ -1,5 +1,6 @@
 import { tryCatch } from "@/app/utils/helpers";
 import YachListingCard from "@/components/yachtListings/YachListingCard";
+import YachtListingClient from "@/components/yachtListings/YachtListingClient";
 import { Yacht } from "@/data/types";
 import React from "react";
 
@@ -19,14 +20,20 @@ const YachtListings = async () => {
     );
   }
 
-  const data = (await yachtsReq.json()).result as Yacht[];
+  const { result: data } = await yachtsReq.json();
   // console.log("Yacht data:", data);
 
   const handleShowYachtListings = () => {
-    if (data.length == 0) {
+    if (!data || data.length == 0) {
       return (
         <div className="flex justify-center items-center">
           <p>No yachts listed at the moment. Kindly check back later.</p>
+        </div>
+      );
+    } else if (data.error) {
+      return (
+        <div className="flex justify-center items-center">
+          <p>{data.error}</p>
         </div>
       );
     } else {
@@ -71,9 +78,7 @@ const YachtListings = async () => {
           have the perfect vessel for your journey.
         </p>
       </div>
-      <div className="yacht-listings-container w-full flex justify-center items-center">
-        {handleShowYachtListings()}
-      </div>
+      <YachtListingClient data={data} />
     </section>
   );
 };
