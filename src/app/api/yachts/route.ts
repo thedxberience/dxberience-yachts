@@ -7,12 +7,21 @@ export async function GET(request: NextRequest){
     // Validate sort parameter
     const validSortOptions = ['asc', 'desc'];
     const sortParam = searchParams.get('sort');
+    const min = searchParams.get('min');
+    const max = searchParams.get('max');
+    let budgetFilter: string[] = [];
+    if(min) {
+        budgetFilter.push(`prices[0].price >= ${min}`);
+    }
+    if(max) {
+        budgetFilter.push(`prices[0].price <= ${max}`);
+    }
     if (sortParam && !validSortOptions.includes(sortParam)) {
         return NextResponse.json({ error: "Invalid sort parameter" }, { status: 400 });
     }
 
     const sort = sortParam || 'asc';
-    const { data: result, error } = await getAll(sort as "asc" | "desc");
+    const { data: result, error } = await getAll(sort as "asc" | "desc", budgetFilter);
 
     if(error){
         return NextResponse.json({error: error.message}, {status: 500});

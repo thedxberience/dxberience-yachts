@@ -32,10 +32,13 @@ export async function getBySlug(slug: string){
         return error;
       }
 
-      return result[0].result;
+      console.log("Yacht data from slug method:", result);
+      
+
+      return result[0];
 }
 
-export async function getAll(sort: "asc" | "desc" = "asc"){
+export async function getAll(sort: "asc" | "desc" = "asc", filter?: string[]){
     let sortCommand = ['order(prices[0].price asc)'];
 
     if (sort == "desc"){
@@ -44,6 +47,7 @@ export async function getAll(sort: "asc" | "desc" = "asc"){
 
     const groqQuery = generateGroqQuery({
         document: 'yachts',
+        filters: filter ? filter : [],
         sort: sortCommand,
         projection: [
           'name',

@@ -65,11 +65,11 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
     );
   }
 
-  const data = await response.json();
+  const { data } = await response.json();
 
-  console.log("Yacht data:", data);
+  // console.log("Yacht data:", data);
 
-  if (!data || data.length === 0) {
+  if (!data || Object.keys(data).length === 0) {
     return (
       <div className="w-full h-screen bg-primary flex flex-col justify-center items-center">
         <div className="dxberience_logo relative w-[136.34px] h-[33.29px] lg:w-[172px] lg:h-[42px]">
@@ -118,7 +118,6 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
           carouselGallery={data.gallery}
         />
       </Suspense>
-
       <Footer />
     </main>
   );
