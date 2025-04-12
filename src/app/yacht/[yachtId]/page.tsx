@@ -8,30 +8,19 @@ import { Suspense } from "react";
 import Image from "next/image";
 import { Yacht } from "@/data/types";
 import { tryCatch } from "@/app/utils/helpers";
+import { getAll } from "@/app/api/yachts/service";
 
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.BASE_API_URL}/yachts`, {
-    next: { tags: ["yachts"] },
-  });
+  const { data: yachtsData, error: yachtError } = await tryCatch(getAll("asc"));
 
-  if (!res.ok) {
-    console.error("Failed to fetch yachts:", res.statusText);
-    return []; // Return empty array if API fails
+  if (yachtError || !yachtsData) {
+    return [];
   }
-
-  let yachtsData;
-  try {
-    yachtsData = await res.json();
-  } catch (e) {
-    console.error("Failed to parse yacht data as JSON:", e);
-    return []; // Again, fallback to empty list
-  }
-
-  const yachts: Yacht[] = yachtsData.result;
+  const yachts: Yacht[] = yachtsData.data;
 
   return yachts.map((yacht) => ({
     yachtId: yacht.slug,
