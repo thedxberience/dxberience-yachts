@@ -30,7 +30,7 @@ function Footer() {
       }
       handleDomChecking();
     };
-  }, []);
+  }, [handleDomChecking]);
 
   function openWhatsapp() {
     window.open("https://wa.me/+971585787558", "_blank");

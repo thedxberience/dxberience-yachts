@@ -1,65 +1,25 @@
-import YachListingCard from "@/components/yachtListings/YachListingCard";
-import { Yacht } from "@/data/types";
+import { tryCatch } from "@/app/utils/helpers";
+import YachtListingClient from "@/components/yachtListings/YachtListingClient";
 import React from "react";
 
 export const revalidate = 60;
 
 const YachtListings = async () => {
-  let data: Yacht[];
-  try {
-    const yachtsReq = await fetch(process.env.BASE_API_URL + "/yachts");
-    data = await yachtsReq.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      return (
-        <div>
-          <p>Oops! Something went wrong please try again later!</p>
-          <p>{error.message}</p>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <p>Oops! Something went wrong please try again later!</p>
-        </div>
-      );
-    }
+  const { data: yachtsReq, error } = await tryCatch(
+    fetch(process.env.BASE_API_URL + "/yachts")
+  );
+
+  if (error) {
+    return (
+      <div className="text-center flex flex-col justify-center items-center w-full pt-6">
+        <p>Oops! Something went wrong please try again later!</p>
+        <p>{error.message}</p>
+      </div>
+    );
   }
 
-  const handleShowYachtListings = () => {
-    if (data.length == 0) {
-      return (
-        <div className="flex justify-center items-center">
-          <p>No yachts listed at the moment. Kindly check back later.</p>
-        </div>
-      );
-    } else {
-      return (
-        <div className="w-11/12 yacht-listings">
-          {data?.map((yacht: Yacht) => {
-            const pricePerHour = yacht.prices.find(
-              (price) => price.type.toLowerCase() === "hourly"
-            );
-            return (
-              <YachListingCard
-                key={yacht.slug}
-                name={yacht.name}
-                imageUrl={yacht.thumbnail.image}
-                imageAlt={yacht.thumbnail.altText}
-                length={yacht.length}
-                pricePerHour={pricePerHour?.price}
-                builder={yacht.builder}
-                cabins={yacht.cabins}
-                capacity={yacht.capacity}
-                built={yacht.built}
-                slug={yacht.slug}
-              />
-            );
-          })}
-        </div>
-      );
-    }
-  };
+  const { result: data } = await yachtsReq.json();
+  // console.log("Yacht data:", data);
 
   return (
     <section className="flex flex-col justify-center items-center w-full py-7 xl:py-24 gap-7">
@@ -75,9 +35,7 @@ const YachtListings = async () => {
           have the perfect vessel for your journey.
         </p>
       </div>
-      <div className="yacht-listings-container w-full flex justify-center items-center">
-        {handleShowYachtListings()}
-      </div>
+      <YachtListingClient data={data} />
     </section>
   );
 };
