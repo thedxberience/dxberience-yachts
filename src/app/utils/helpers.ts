@@ -24,6 +24,11 @@ type Success<T> = {
       const data = await promise;
       return { data, error: null };
     } catch (error) {
+        // Check if errorType is provided and cast the error accordingly
+        if (errorType && error instanceof Error) {
+            const typedError = new errorType(error.message);
+            return { data: null, error: typedError as E };
+        }
       return { data: null, error: error as E };
     }
   }

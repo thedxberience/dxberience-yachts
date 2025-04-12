@@ -21,8 +21,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       if (error){
         return NextResponse.json({error: error.message}, {status: 500});
       }
-
-      console.log("Yacht data from slug method:", result);
       
 
       return NextResponse.json({data: result}, {status: 200});

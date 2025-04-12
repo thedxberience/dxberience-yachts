@@ -32,7 +32,7 @@ export async function getBySlug(slug: string){
         return error;
       }
 
-      console.log("Yacht data from slug method:", result);
+      // console.log("Yacht data from slug method:", result);
       
 
       return result[0];

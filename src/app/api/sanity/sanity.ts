@@ -26,10 +26,10 @@ export function  generateGroqQuery(groqQuery: GroqQuery) {
         sort ? ` | ${sort}` : ''
       }`;
 
-    let computedFilters = filters ? filters.join(' && ') : null;
+    const computedFilters = filters ? filters.join(' && ') : null;
 
     // Add sorting to the filters
-    let computedSort = sort ? sort.join(' ') : null;
+    const computedSort = sort ? sort.join(' ') : null;
 
     const computedProjection = projection ? projection.join(', ') : null;
 

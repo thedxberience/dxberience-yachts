@@ -9,7 +9,7 @@ export async function GET(request: NextRequest){
     const sortParam = searchParams.get('sort');
     const min = searchParams.get('min');
     const max = searchParams.get('max');
-    let budgetFilter: string[] = [];
+    const budgetFilter: string[] = [];
     if(min) {
         budgetFilter.push(`prices[0].price >= ${min}`);
     }

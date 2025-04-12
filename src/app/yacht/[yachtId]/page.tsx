@@ -14,32 +14,32 @@ import { tryCatch } from "@/app/utils/helpers";
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const { data: yachtsReq, error } = await tryCatch(
-    fetch(process.env.BASE_API_URL + "/yachts", {
-      next: { tags: ["yachts"] },
-    })
-  );
-
-  if (error) {
-    console.error("Error fetching yacht data:", error);
-    return {};
-  }
-
-  const yachts: Yacht[] = (await yachtsReq.json()).result;
-
-  const allYachts = yachts.map((yacht) => {
-    return {
-      yachtId: yacht.slug,
-    };
+  const res = await fetch(`${process.env.BASE_API_URL}/yachts`, {
+    next: { tags: ["yachts"] },
   });
 
-  return allYachts;
+  if (!res.ok) {
+    console.error("Failed to fetch yachts:", res.statusText);
+    return []; // Return empty array if API fails
+  }
+
+  let yachtsData;
+  try {
+    yachtsData = await res.json();
+  } catch (e) {
+    console.error("Failed to parse yacht data as JSON:", e);
+    return []; // Again, fallback to empty list
+  }
+
+  const yachts: Yacht[] = yachtsData.result;
+
+  return yachts.map((yacht) => ({
+    yachtId: yacht.slug,
+  }));
 }
 
 const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
   const { yachtId } = await params;
-
-  console.log("Yacht ID:", yachtId);
 
   const { data: response, error } = await tryCatch(
     fetch(process.env.BASE_API_URL + `/yachts/${yachtId}`)
