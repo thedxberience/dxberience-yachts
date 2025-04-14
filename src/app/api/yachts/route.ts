@@ -13,7 +13,7 @@ export async function GET(request: NextRequest){
     if(min) {
         budgetFilter.push(`prices[0].price >= ${min}`);
     }
-    if(max) {
+    if(max && max !== "0") {
         budgetFilter.push(`prices[0].price <= ${max}`);
     }
     if (sortParam && !validSortOptions.includes(sortParam)) {

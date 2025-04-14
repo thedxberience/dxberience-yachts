@@ -103,17 +103,19 @@ const YachListingCard = ({
                   <Image
                     src={"/phone.svg"}
                     alt="phone"
-                    width={24}
-                    height={24}
+                    width={40}
+                    height={40}
                     className="object-cover"
                   />
                 </a>
-                <a href="https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+your+yachts+for+rent">
+                <a
+                  href={`https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+the+${name}+yachts+for+rent`}
+                >
                   <Image
                     src={"/footer_whatsapp.svg"}
                     alt="whatsapp"
-                    width={24}
-                    height={24}
+                    width={40}
+                    height={40}
                     className="object-cover"
                   />
                 </a>
