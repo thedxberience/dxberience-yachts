@@ -130,7 +130,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
       <div className="sort-filter-bnts w-11/12 flex flex-col gap-4 md:flex-row justify-center items-start md:justify-between md:items-center">
         <select
           onChange={handleSelectChange}
-          className="lg:w-fit w-full border-b border-primary text-black outline-none bg-transparent focus:border-primary focus:ring-0"
+          className="lg:w-fit font-bold text-lg w-full border-b border-primary text-black outline-none bg-transparent focus:border-primary focus:ring-0"
         >
           <option value="asc">Sort by Price: Low to High</option>
           <option value="desc">Sort by Price: High to Low</option>
@@ -138,7 +138,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
 
         <select
           onChange={handleFilterChange}
-          className="lg:w-fit w-full border-b border-primary text-black outline-none bg-transparent focus:border-primary focus:ring-0"
+          className="lg:w-fit font-bold text-lg w-full border-b border-primary text-black outline-none bg-transparent focus:border-primary focus:ring-0"
         >
           <option value="">Filter by Budget (hr): All</option>
           <option value="0, 1000">
