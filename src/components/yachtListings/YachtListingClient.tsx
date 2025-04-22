@@ -46,6 +46,10 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
       return (
         <div className="w-11/12 yacht-listings">
           {yachtData.map((yacht: Yacht) => {
+            if (!yacht.thumbnail || !yacht.prices) {
+              return null; // Skip rendering if thumbnail or prices is not available
+            }
+
             const pricePerHour = yacht.prices.find(
               (price) => price.type.toLowerCase() === "hourly"
             );

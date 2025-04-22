@@ -1,3 +1,4 @@
+import { getAll } from "@/app/api/yachts/service";
 import { tryCatch } from "@/app/utils/helpers";
 import YachtListingClient from "@/components/yachtListings/YachtListingClient";
 import React from "react";
@@ -5,9 +6,7 @@ import React from "react";
 export const revalidate = 60;
 
 const YachtListings = async () => {
-  const { data: yachtsReq, error } = await tryCatch(
-    fetch(process.env.BASE_API_URL + "/yachts")
-  );
+  const { data: yachtsReq, error } = await tryCatch(getAll("asc"));
 
   if (error) {
     return (
@@ -18,8 +17,8 @@ const YachtListings = async () => {
     );
   }
 
-  const { result: data } = await yachtsReq.json();
-  // console.log("Yacht data:", data);
+  const { data } = yachtsReq;
+  // console.log("Yacht data:", JSON.stringify(data));
 
   return (
     <section className="flex flex-col justify-center items-center w-full py-7 xl:py-24 gap-7">
