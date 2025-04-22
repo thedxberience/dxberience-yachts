@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import { Yacht } from "@/data/types";
 import { tryCatch } from "@/app/utils/helpers";
-import { getAll } from "@/app/api/yachts/service";
+import { getAll, getBySlug } from "@/app/api/yachts/service";
 
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
@@ -22,17 +22,21 @@ export async function generateStaticParams() {
   }
   const yachts: Yacht[] = yachtsData.data;
 
-  return yachts.map((yacht) => ({
-    yachtId: yacht.slug,
-  }));
+  const yachtSlugs: { yachtId: string }[] = [];
+
+  yachts.forEach((yacht) => {
+    if (yacht.slug) {
+      yachtSlugs.push({ yachtId: yacht.slug });
+    }
+  });
+
+  return yachtSlugs;
 }
 
 const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
   const { yachtId } = await params;
 
-  const { data: response, error } = await tryCatch(
-    fetch(process.env.BASE_API_URL + `/yachts/${yachtId}`)
-  );
+  const { data, error } = await tryCatch(getBySlug(yachtId));
 
   if (error) {
     // Handle the error appropriately
@@ -54,8 +58,6 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
     );
   }
 
-  const { data } = await response.json();
-
   // console.log("Yacht data:", data);
 
   if (!data || Object.keys(data).length === 0) {
@@ -76,6 +78,11 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
     );
   }
 
+  const { url, altText } = data.thumbnail || {
+    image: "",
+    altText: "",
+  };
+
   return (
     <main className="w-full h-full">
       <Suspense fallback={<p>Loading yacht details...</p>}>
@@ -84,14 +91,14 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
           slug={data.slug}
           yachtName={data.name}
           yachtDescription={data.formDescription}
-          yachtImageUrl={data.thumbnail.image}
-          yachtImageAlt={data.thumbnail.altText}
+          yachtImageUrl={url}
+          yachtImageAlt={altText}
         />
         <YachtDescription
           yachtName={data.name}
           yachtDescription={data.mainDescription}
-          yachtImageUrl={data.thumbnail.image}
-          yachtImageAlt={data.thumbnail.altText}
+          yachtImageUrl={url}
+          yachtImageAlt={altText}
         />
         <YachtDetails
           buildDate={data.buildDate}
