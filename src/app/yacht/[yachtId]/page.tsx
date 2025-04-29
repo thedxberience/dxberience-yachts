@@ -78,9 +78,9 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
     );
   }
 
-  const { url, altText } = data.thumbnail || {
-    image: "",
-    altText: "",
+  const { image: url, altText } = data.thumbnail || {
+    image: null,
+    altText: null,
   };
 
   return (
