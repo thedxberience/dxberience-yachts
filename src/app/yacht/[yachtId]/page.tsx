@@ -107,6 +107,7 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
           prices={data.prices}
           description={data.shortDescription}
           length={data.length}
+          yachtName={data.name}
         />
         <YachtCarousel
           carouselHeader={data.moreDetailsTitle}
