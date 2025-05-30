@@ -43,6 +43,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
         </div>
       );
     } else {
+      console.log(JSON.stringify(yachtData[0]));
       return (
         <div className="w-11/12 yacht-listings">
           {yachtData.map((yacht: Yacht) => {
@@ -51,7 +52,9 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
             }
 
             const pricePerHour = yacht.prices.find(
-              (price) => price.type.toLowerCase() === "hourly"
+              (price) =>
+                price.type.toLowerCase() === "hourly" ||
+                price.type.toLocaleLowerCase() === "per hour"
             );
             return (
               <YachListingCard
@@ -76,7 +79,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
 
   const handleFilterSortYachtLisitings = async ({
     sort,
-    filter,
+    filter
   }: {
     sort: "asc" | "desc";
     filter?: string;
@@ -103,7 +106,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     setSortCommand(selectedValue);
     handleFilterSortYachtLisitings({
       sort: selectedValue as "asc" | "desc",
-      filter: filterCommand,
+      filter: filterCommand
     });
   };
 
@@ -117,7 +120,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     setFilterCommand(filterQuery);
     handleFilterSortYachtLisitings({
       sort: sortCommand as "asc" | "desc",
-      filter: filterQuery,
+      filter: filterQuery
     });
   };
 
