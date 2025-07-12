@@ -13,7 +13,7 @@ type YachtListingClientProps = {
 const YachtListingClient = ({ data }: YachtListingClientProps) => {
   const [yachtData, setYachtData] = useState(data);
   const [loading, setLoading] = useState(false);
-  const [sortCommand, setSortCommand] = useState("asc");
+  const [sortCommand, setSortCommand] = useState("desc");
   const [filterCommand, setFilterCommand] = useState("");
 
   const handleShowYachtListings = () => {
@@ -43,7 +43,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
         </div>
       );
     } else {
-      console.log(JSON.stringify(yachtData[0]));
+      // console.log(JSON.stringify(yachtData[0]));
       return (
         <div className="w-11/12 yacht-listings">
           {yachtData.map((yacht: Yacht) => {
@@ -79,7 +79,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
 
   const handleFilterSortYachtLisitings = async ({
     sort,
-    filter
+    filter,
   }: {
     sort: "asc" | "desc";
     filter?: string;
@@ -106,7 +106,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     setSortCommand(selectedValue);
     handleFilterSortYachtLisitings({
       sort: selectedValue as "asc" | "desc",
-      filter: filterCommand
+      filter: filterCommand,
     });
   };
 
@@ -120,7 +120,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     setFilterCommand(filterQuery);
     handleFilterSortYachtLisitings({
       sort: sortCommand as "asc" | "desc",
-      filter: filterQuery
+      filter: filterQuery,
     });
   };
 
@@ -139,8 +139,8 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
           onChange={handleSelectChange}
           className="lg:w-fit font-bold text-lg w-full border-b border-primary text-black outline-none bg-transparent focus:border-primary focus:ring-0"
         >
-          <option value="asc">Sort by Price: Low to High</option>
           <option value="desc">Sort by Price: High to Low</option>
+          <option value="asc">Sort by Price: Low to High</option>
         </select>
 
         <select
