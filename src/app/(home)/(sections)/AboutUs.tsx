@@ -11,7 +11,7 @@ const AboutUs = () => {
               Where Luxury Meets the Open Sea
             </h2>
             <p className="text-lg xl:text-xl text-secondary leading-relaxed">
-              We refine luxury with bespoke yacht experiences, meticulously
+              We redefine luxury with bespoke yacht experiences, meticulously
               curated for the discerning traveler who seeks nothing but
               perfection.
             </p>
