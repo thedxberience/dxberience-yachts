@@ -1,4 +1,3 @@
-import CustomButton from "@/components/shared/CustomButton";
 import Image from "next/image";
 
 const AboutUs = () => {
