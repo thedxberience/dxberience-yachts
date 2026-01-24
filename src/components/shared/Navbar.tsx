@@ -2,6 +2,13 @@ import Image from "next/image";
 import CustomButton from "./CustomButton";
 import Link from "next/link";
 
+const navLinks = [
+  { label: "About", href: "/#about" },
+  { label: "Yacht for Hire", href: "/yachts" },
+  { label: "Add-ons", href: "/#add-ons" },
+  { label: "Contact Us", href: "/#contact" },
+];
+
 const Navbar = () => {
   return (
     <nav className="w-full flex justify-center items-center py-6">
@@ -16,11 +23,23 @@ const Navbar = () => {
             />
           </Link>
         </div>
+
+        <div className="hidden lg:flex items-center gap-10 text-xs tracking-[0.2em] uppercase text-white font-noah">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="transition-opacity hover:opacity-80"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
         <div>
           <CustomButton
-            btnName="Contact us"
+            btnName="Book Now"
             isLink
-            href="https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+your+yachts+for+rent"
+            href="/#yachts"
           />
         </div>
       </div>

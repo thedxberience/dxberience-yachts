@@ -1,3 +1,4 @@
+import CustomButton from "@/components/shared/CustomButton";
 import Image from "next/image";
 
 const AboutUs = () => {
@@ -33,6 +34,8 @@ const AboutUs = () => {
               adventure while you immerse yourself in the ultimate
               sophistication and comfort on the open sea.
             </p>
+
+
           </div>
 
           {/* Key Features */}

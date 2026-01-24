@@ -42,46 +42,91 @@ function Footer() {
 
   return (
     <footer
+      id="contact"
       ref={footerRef}
-      className="footer relative flex flex-col w-full h-[454px] 2xl:h-[526px] bg-bottom bg-cover 2xl:py-5"
+      className="footer relative w-full bg-bottom bg-cover"
     >
-      <div className="w-full flex justify-center z-20">
-        <div className="relative w-[223.79px] 2xl:w-[325.52px] h-[80px] pt-[30px]">
-          <Link href="/">
-            <Image
-              src="/dxberience_logo.png"
-              alt="logo"
-              className="object-cover"
-              fill
-            />
-          </Link>
-        </div>
-      </div>
+      <div className="absolute inset-0 bg-[#0B1615] bg-opacity-85" />
+      <div className="relative z-10 w-full py-12 lg:py-16 text-white">
+        <div className="w-11/12 max-w-7xl mx-auto flex flex-col gap-10">
+          <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr_1.1fr]">
+            <div className="flex flex-col gap-4">
+              <div className="relative w-[190px] h-[64px]">
+                <Link href="/">
+                  <Image
+                    src="/dxberience_logo.png"
+                    alt="Dxberience logo"
+                    className="object-cover"
+                    fill
+                  />
+                </Link>
+              </div>
+              <p className="text-sm text-white/80 max-w-xs">
+                Luxury yachting, designed for those who expect more.
+              </p>
+            </div>
 
-      <div className="absolute inset-0 bg-[#171010] bg-opacity-90 z-10" />
-      <div className="relative z-20 text-white">
-        <div className="px-8 flex justify-center">
-          <h1 className="py-2 text-2xl font-bold font-IvyPresto text-white text-center">
-            No need to think, just experience
-          </h1>
-        </div>
+            <div className="flex flex-col gap-4">
+              <h3 className="text-sm tracking-[0.2em] uppercase text-white">
+                Get in touch
+              </h3>
+              <p className="text-sm text-white/80">
+                3320 Townsend Cremela Ground Free zone estate, Dubai
+              </p>
+              <div className="flex flex-col gap-3 text-sm text-white/80">
+                <div className="flex items-center gap-3">
+                  <Image src="/phone.svg" alt="Phone" width={18} height={18} />
+                  <span>+224 000 00000</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Image src="/window.svg" alt="Email" width={18} height={18} />
+                  <span>hello@dxberience.com</span>
+                </div>
+              </div>
+            </div>
 
-        <div className="flex justify-center items-center text-sm lg:gap-[80px] border-t-[1px] border-b-[1px] h-[200.01px] 2xl:h-[252.01px] border-white">
-          <div className="flex flex-col items-center p-4 gap-5">
-            <span>CONTACT US</span>
-            <Image
-              width={24}
-              height={24}
-              src="/footer_whatsapp.svg"
-              alt="WhatsApp logo"
-              onClick={openWhatsapp}
-            />
+            <div className="flex flex-col gap-4">
+              <h3 className="text-sm tracking-[0.2em] uppercase text-white">
+                Stay up to date
+              </h3>
+              <form className="w-full">
+                <div className="flex w-full items-center justify-between border border-white/70 px-4 py-3">
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="ENTER EMAIL"
+                    className="w-full bg-transparent text-xs tracking-[0.2em] uppercase text-white placeholder:text-white/70 outline-none"
+                  />
+                  <button
+                    type="submit"
+                    className="flex items-center gap-3 border border-white bg-white px-4 py-2 text-xs uppercase text-black"
+                  >
+                    Submit
+                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-black text-[10px]">
+                      →
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
 
-          <div className="h-[50px] w-[1px] bg-white bg-opacity-50" />
+          <div className="border-t border-white/40 pt-6">
+            <nav className="flex flex-wrap items-center justify-center gap-6 text-xs tracking-[0.2em] uppercase text-white/90">
+              <Link href="/#about">About</Link>
+              <Link href="/yachts">Yacht for Hire</Link>
+              <Link href="/#add-ons">Add-ons</Link>
+              <Link href="/#contact">Contact Us</Link>
+              <Link href="#">Blogs</Link>
+              <Link href="#">Terms & Conditions</Link>
+              <Link href="#">Privacy Policy</Link>
+            </nav>
+          </div>
 
-          <div className="flex flex-col items-center p-4 gap-5">
-            <span>FOLLOW US</span>
+          <div className="border-t border-white/40 pt-6 flex flex-col items-center gap-3">
+            <span className="text-xs tracking-[0.3em] uppercase text-white/80">
+              Follow Us
+            </span>
             <Link
               href="https://www.instagram.com/thedxberience?igsh=MTdyY2k5NTdpZW5kcA=="
               target="_blank"
@@ -90,41 +135,42 @@ function Footer() {
                 width={24}
                 height={24}
                 src="/footer_insta.svg"
-                alt="Insta logo"
+                alt="Instagram"
               />
             </Link>
           </div>
         </div>
-
-        <ul className="flex justify-evenly pt-5 md:text-transparent">
-          <li>Terms & Conditions</li>
-          <li>Privacy Policy</li>
-        </ul>
       </div>
       <div
         className={`flex flex-col fixed right-5 ${
           reachedFooter ? "bottom-60 md:bottom-40" : "bottom-6"
         } md:right-5  gap-5 z-30 md:flex-row`}
       >
-        {/* <div className="relative w-10 h-10 lg:w-[50px] lg:h-[50px]">
+        <button
+          type="button"
+          onClick={openWhatsapp}
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-white"
+        >
           <Image
-            src="/whatsapp_logo.png"
-            alt="whatsapp-logo"
-            fill
-            className="object-cover"
-            onClick={openWhatsapp}
+            src="/footer_whatsapp.svg"
+            alt="WhatsApp"
+            width={22}
+            height={22}
           />
-        </div> */}
+        </button>
         {scrolled && (
-          <div className="relative w-10 h-10 lg:w-[50px] lg:h-[50px]">
+          <button
+            type="button"
+            onClick={toPageTop}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-black border border-white/60"
+          >
             <Image
               src="/to_page_top.svg"
               alt="scroll-to-top"
-              fill
-              className="object-cover"
-              onClick={toPageTop}
+              width={20}
+              height={20}
             />
-          </div>
+          </button>
         )}
       </div>
     </footer>
