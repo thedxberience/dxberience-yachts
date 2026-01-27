@@ -76,11 +76,13 @@ function Footer() {
               <div className="flex flex-col gap-3 text-sm text-white/80">
                 <div className="flex items-center gap-3">
                   <Image src="/phone.svg" alt="Phone" width={18} height={18} />
-                  <span>+224 000 00000</span>
+                  <a href="tel:+971585787558">+971 58 578 7558</a>
                 </div>
                 <div className="flex items-center gap-3">
                   <Image src="/window.svg" alt="Email" width={18} height={18} />
-                  <span>hello@dxberience.com</span>
+                  <a href="mailto:support@thedxberience.com">
+                    support@thedxberience.com
+                  </a>
                 </div>
               </div>
             </div>
@@ -115,7 +117,6 @@ function Footer() {
             <nav className="flex flex-wrap items-center justify-center gap-6 text-xs tracking-[0.2em] uppercase text-white/90">
               <Link href="/#about">About</Link>
               <Link href="/yachts">Yacht for Hire</Link>
-              <Link href="/#add-ons">Add-ons</Link>
               <Link href="/#contact">Contact Us</Link>
               <Link href="#">Blogs</Link>
               <Link href="#">Terms & Conditions</Link>
@@ -149,13 +150,13 @@ function Footer() {
         <button
           type="button"
           onClick={openWhatsapp}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-white"
+          className="flex items-center justify-center"
         >
           <Image
-            src="/footer_whatsapp.svg"
+            src="/images/whatsapp.png"
             alt="WhatsApp"
-            width={22}
-            height={22}
+            width={40}
+            height={40}
           />
         </button>
         {scrolled && (

@@ -8,7 +8,7 @@ const ExperienceSection = () => {
         <div className="w-full lg:w-1/2">
           <div className="relative w-full h-[320px] sm:h-[420px] lg:h-[520px] overflow-hidden">
             <Image
-              src="/images/yachts_hero_img.jpeg"
+              src="/images/unparalled_experience.png"
               alt="Luxury yacht cruising at sea"
               fill
               className="object-cover"
@@ -25,9 +25,8 @@ const ExperienceSection = () => {
             everything is taken care of so you can simply relax and enjoy the
             journey.
           </p>
-          <div className="flex flex-col gap-4 text-secondary text-sm sm:text-base">
-            <div className="flex items-start gap-3">
-              <span className="mt-2 h-2 w-2 rounded-full bg-primary"></span>
+          <ul className="flex flex-col gap-4 text-secondary text-sm sm:text-base">
+            <li className="flex items-start gap-3">
               <p>
                 <span className="font-semibold text-primary">
                   Exquisitely Designed Yachts:
@@ -35,9 +34,8 @@ const ExperienceSection = () => {
                 Our yachts feature sophisticated interiors, spacious decks, and
                 impeccable finishes crafted for ultimate comfort and style.
               </p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="mt-2 h-2 w-2 rounded-full bg-primary"></span>
+            </li>
+            <li className="flex items-start gap-3">
               <p>
                 <span className="font-semibold text-primary">
                   Bespoke Itineraries:
@@ -46,9 +44,8 @@ const ExperienceSection = () => {
                 waterfront destinations, every route is tailored to match your
                 preferences and pace.
               </p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="mt-2 h-2 w-2 rounded-full bg-primary"></span>
+            </li>
+            <li className="flex items-start gap-3">
               <p>
                 <span className="font-semibold text-primary">
                   Premium Onboard Amenities:
@@ -57,8 +54,8 @@ const ExperienceSection = () => {
                 gourmet dining options, entertainment systems, and leisure
                 facilities designed for pure relaxation.
               </p>
-            </div>
-          </div>
+            </li>
+          </ul>
           <div>
             <CustomButton btnName="See Our Yachts" isLink href="/yachts" />
           </div>

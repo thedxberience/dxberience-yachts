@@ -19,8 +19,6 @@ const YachListingCard = ({
   const getYachtCardDetails = () => {
     const yachtDetails: YachtDetailItem = {
       length: length,
-      builder: builder,
-      cabins: cabins,
       capacity: capacity,
       built: built,
     };
@@ -45,78 +43,84 @@ const YachListingCard = ({
 
   return (
     <div className="yacht-listing-container">
-      <div className="yacht-listing-card">
+      <div className="yacht-listing-card overflow-hidden border border-black/20 bg-white">
         <Link href={`/yacht/${slug}`}>
-          <div className="yacht-img overflow-hidden relative min-w-[358px] w-full h-[220px] xl:min-w-[407px] xl:h-[246px]">
+          <div className="yacht-img overflow-hidden relative w-full h-[260px]">
             <Image
               src={imageUrl}
               alt={imageAlt || "yacht img"}
-              className="object-cover scale-150"
+              className="object-cover"
               fill
             />
           </div>
         </Link>
 
-        <div className="w-full flex justify-center items-center bg-primary text-white py-6">
-          <div className="w-11/12 flex flex-col gap-4">
+        <div className="w-full flex justify-center items-center bg-white py-6">
+          <div className="w-11/12 flex flex-col gap-6 text-black">
             <div className="yacht-listing-name">
               <Link href={`/yacht/${slug}`}>
-                <h3 className="text-xl font-IvyPresto font-semibold text-white">
+                <h3 className="text-2xl font-IvyPresto font-semibold text-primary">
                   {name}
                 </h3>
               </Link>
             </div>
-            <div className="yacht-listing-specs">
+            <div className="grid grid-cols-3 gap-4">
               {getYachtCardDetails().map((item, index) => {
                 return (
                   <div
                     key={index}
                     className="flex flex-col justify-center items-start text-left"
                   >
-                    <p className="text-sm capitalize">{Object.keys(item)}</p>
-                    <h4 className="font-bold text-lg xl:text-xl text-white text-balance">
+                    <p className="text-sm capitalize text-secondary">
+                      {Object.keys(item)}
+                    </p>
+                    <h4 className="font-semibold text-xl text-primary text-balance">
                       {Object.values(item)}
                     </h4>
                   </div>
                 );
               })}
             </div>
-            <div className="line-break w-full h-[1px] bg-tertiary"></div>
+            <div className="line-break w-full h-[1px] bg-black/20"></div>
             <div className="flex justify-between items-center">
-              <div className="price-per-hour flex justify-center items-center gap-2">
+              <div className="price-per-hour flex justify-center items-center gap-2 text-secondary">
                 <Image
                   src={"/clock.svg"}
                   alt="Price per hour"
-                  width={24}
-                  height={24}
-                  className="object-cover"
+                  width={20}
+                  height={20}
+                  className="object-cover opacity-70"
                 />
                 <p className="text-sm">Price per hour</p>
-                <i className="text-text_orange font-bold text-xs">
+                <i className="text-text_orange font-semibold text-xs">
                   {pricePerHour
                     ? "From AED " + currencyFormat(pricePerHour)
                     : "Contact us to know"}
                 </i>
               </div>
               <div className="flex justify-center items-center gap-3">
-                <a href="tel:+971585787558">
+                <a
+                  href="tel:+971585787558"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-black/20"
+                >
                   <Image
                     src={"/phone.svg"}
                     alt="phone"
-                    width={40}
-                    height={40}
-                    className="object-cover"
+                    width={18}
+                    height={18}
+                    className="object-cover brightness-0"
                   />
                 </a>
                 <a
                   href={`https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+the+${name}+yachts+for+rent`}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-black/20"
                 >
                   <Image
                     src={"/footer_whatsapp.svg"}
                     alt="whatsapp"
-                    width={40}
-                    height={40}
-                    className="object-cover"
+                    width={18}
+                    height={18}
+                    className="object-cover brightness-0"
                   />
                 </a>
               </div>

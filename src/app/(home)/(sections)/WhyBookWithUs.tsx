@@ -70,8 +70,8 @@ const features = [
 
 const WhyBookWithUs = () => {
   return (
-    <section className="w-full bg-[#140C0C] text-white py-14 lg:py-20">
-      <div className="w-11/12 max-w-7xl mx-auto flex flex-col items-center gap-10">
+    <section className="w-full bg-[#140C0C] text-white py-16 lg:py-24">
+      <div className="w-11/12 max-w-7xl mx-auto flex flex-col items-center gap-12">
         <h2 className="text-3xl lg:text-6xl font-IvyPresto font-semibold text-white">
           Why Book With Us
         </h2>
