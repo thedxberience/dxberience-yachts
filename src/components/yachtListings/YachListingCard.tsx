@@ -10,8 +10,6 @@ const YachListingCard = ({
   name,
   imageUrl,
   imageAlt,
-  builder,
-  cabins,
   capacity,
   built,
   slug,
