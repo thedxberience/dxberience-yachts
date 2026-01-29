@@ -3,7 +3,7 @@ import CustomButton from "./CustomButton";
 import Link from "next/link";
 
 const navLinks = [
-  { label: "About", href: "/#about" },
+  { label: "About", href: "/about" },
   { label: "Yacht for Hire", href: "/yachts" },
   { label: "Contact Us", href: "/#contact" },
 ];
@@ -45,7 +45,14 @@ const Navbar = ({ variant = "dark" }: NavbarProps) => {
           ))}
         </div>
         <div>
-          <CustomButton btnName="Book Now" isLink href="/#yachts" invert={isLight} />
+          <CustomButton
+            btnName="Book Now"
+            isLink
+            href={`https://api.whatsapp.com/send/?phone=971585787558&text=${encodeURIComponent(
+              "Hello, I'm interested in booking a yacht."
+            )}`}
+            invert={isLight}
+          />
         </div>
       </div>
     </nav>
