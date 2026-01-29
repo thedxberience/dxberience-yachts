@@ -47,7 +47,7 @@ function Footer() {
       className="footer relative w-full bg-bottom bg-cover"
     >
       <div className="absolute inset-0 bg-[#0B1615] bg-opacity-85" />
-      <div className="relative z-10 w-full py-12 lg:py-16 text-white">
+      <div className="relative w-full py-12 lg:py-16 text-white">
         <div className="w-11/12 max-w-7xl mx-auto flex flex-col gap-10">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr_1.1fr]">
             <div className="flex flex-col gap-4">
@@ -143,9 +143,8 @@ function Footer() {
         </div>
       </div>
       <div
-        className={`flex flex-col fixed right-5 ${
-          reachedFooter ? "bottom-60 md:bottom-40" : "bottom-6"
-        } md:right-5  gap-5 z-30 md:flex-row`}
+        className={`flex flex-col fixed right-5 ${reachedFooter ? "bottom-60 md:bottom-40" : "bottom-6"
+          } md:right-5  gap-5 z-30 md:flex-row`}
       >
         <button
           type="button"

@@ -21,7 +21,7 @@ const YachtDetailPageHeader = ({
   prices,
 }: YachtDetailPageHeaderProps) => {
   return (
-    <header className="yacht-detail-page w-full min-h-[750px] h-full lg:h-[800px]">
+    <header className="yacht-detail-page w-full min-h-[100svh] h-full md:min-h-[750px] md:h-[800px]">
       <Navbar />
       <div className="absolute -z-10 top-0 w-full">
         <div className="overlay absolute"></div>

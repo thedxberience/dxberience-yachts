@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const navLinks = [
+  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Yacht for Hire", href: "/yachts" },
   { label: "Contact Us", href: "/#contact" },
@@ -24,7 +25,7 @@ const Navbar = ({ variant = "dark" }: NavbarProps) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
 
     handleScroll();
@@ -98,13 +99,6 @@ const Navbar = ({ variant = "dark" }: NavbarProps) => {
       {isOpen && (
         <div className="absolute top-full left-0 w-full bg-black lg:hidden">
           <div className="w-11/12 mx-auto py-6 flex flex-col gap-5 text-white text-sm tracking-[0.2em] uppercase">
-            <Link
-              href="/"
-              className="transition-opacity hover:opacity-80"
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-            </Link>
             {navLinks.map((link) => (
               <Link
                 key={link.href}

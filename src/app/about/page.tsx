@@ -38,7 +38,7 @@ const whatsappHref = `https://api.whatsapp.com/send/?phone=971585787558&text=${e
 export default function AboutPage() {
   return (
     <main className="bg-white">
-      <section className="relative min-h-[620px] lg:min-h-[760px] overflow-hidden">
+      <section className="relative min-h-[100svh] md:min-h-[760px] overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/aboutUs/hero-image.jpg')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-black/45" />
         <div className="relative z-10">
@@ -110,7 +110,7 @@ export default function AboutPage() {
       <section className="relative w-full py-16 lg:py-28">
         <div className="absolute inset-0 bg-[url('/images/aboutUs/our-mission.jpg')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-black/45" />
-        <div className="relative z-10 w-11/12 max-w-6xl mx-auto grid gap-12 lg:grid-cols-[1fr_1fr] items-center">
+        <div className="relative w-11/12 max-w-6xl mx-auto grid gap-12 lg:grid-cols-[1fr_1fr] items-center">
           <div className="hidden lg:block" />
           <div className="text-white flex flex-col gap-10">
             <div className="flex flex-col gap-4">
@@ -166,12 +166,12 @@ export default function AboutPage() {
                 </p>
               </div>
             ))}
-            <div className="col-span-1 lg:col-span-3 bg-[#1B1110] text-white p-8 flex flex-col gap-6 shadow-lg">
+            {/* <div className="col-span-1 lg:col-span-3 bg-[#1B1110] text-white p-8 flex flex-col gap-6 shadow-lg">
               <h3 className="text-2xl sm:text-3xl font-IvyPresto font-semibold text-white">
                 Book A Yacht With Us Today
               </h3>
               <CustomButton btnName="Book Now" isLink href={whatsappHref} invert />
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

@@ -4,9 +4,9 @@ import Image from "next/image";
 
 const Header = () => {
   return (
-    <header className="w-full min-h-[563px] lg:h-screen hero-section">
+    <header className="w-full h-screen hero-section">
       <Navbar />
-      <div className="main-content-container nav-offset relative w-full flex justify-center items-center">
+      <div className="main-content-container nav-offset relative w-full h-screen flex justify-center items-center">
         <div className="main-content w-10/12 flex justify-center items-center">
           <div className="header-img absolute top-0 lg:relative w-[292px] h-[393px] xl:w-[63.906vw] xl:h-[75vh] xl:max-h-[600px]">
             {/* <div className="overlay absolute z-10"></div> */}
