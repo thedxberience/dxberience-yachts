@@ -34,7 +34,7 @@ const YachtDetailPageHeader = ({
           />
         </div>
       </div>
-      <div className="main-content w-full h-full flex justify-center items-center">
+      <div className="main-content nav-offset w-full h-full flex justify-center items-center">
         <div className="w-11/12 h-full flex justify-center items-center">
           <div className="relative hidden xl:flex w-[73.906vw] h-[55vh] overflow-hidden">
             <Image

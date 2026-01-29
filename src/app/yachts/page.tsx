@@ -6,7 +6,7 @@ const YachtForHirePage = async () => {
   return (
     <main className="w-full bg-white">
       <Navbar variant="light" />
-      <section className="w-full flex justify-center items-center pt-10 lg:pt-20">
+      <section className="nav-offset w-full flex justify-center items-center pt-10 lg:pt-20">
         <div className="w-11/12 max-w-4xl text-center flex flex-col items-center gap-6">
           <h1 className="text-3xl lg:text-6xl font-IvyPresto font-semibold text-primary">
             Our Fleet

@@ -6,14 +6,14 @@ const Header = () => {
   return (
     <header className="w-full min-h-[563px] lg:h-screen hero-section">
       <Navbar />
-      <div className="main-content-container relative w-full flex justify-center items-center">
+      <div className="main-content-container nav-offset relative w-full flex justify-center items-center">
         <div className="main-content w-10/12 flex justify-center items-center">
           <div className="header-img absolute top-0 lg:relative w-[292px] h-[393px] xl:w-[63.906vw] xl:h-[75vh] xl:max-h-[600px]">
-            <div className="overlay absolute z-10"></div>
+            {/* <div className="overlay absolute z-10"></div> */}
             <Image
               src={"/images/yachts_hero_img.jpeg"}
               alt="A luxurious yacht in the middle of the sea"
-              className="object-cover"
+              className={`hidden lg:block object-cover`}
               fill
             />
           </div>

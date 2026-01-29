@@ -43,7 +43,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-black/45" />
         <div className="relative z-10">
           <Navbar />
-          <div className="w-11/12 max-w-6xl mx-auto grid gap-12 lg:grid-cols-[1fr_1.2fr] items-center py-16 lg:py-24">
+          <div className="nav-offset w-11/12 max-w-6xl mx-auto grid gap-12 lg:grid-cols-[1fr_1.2fr] items-center py-16 lg:py-24">
             <div className="relative hidden lg:block">
               <div className="relative w-full max-w-[360px] h-[420px] shadow-2xl">
                 <Image
@@ -55,14 +55,14 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="text-white flex flex-col gap-6 lg:gap-8">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-IvyPresto font-semibold leading-tight text-white">
+              <h1 className="mt-20 text-center text-4xl sm:text-5xl lg:text-left lg:text-6xl font-IvyPresto font-semibold leading-tight text-white">
                 Luxury Yacht Rental In Dubai
               </h1>
-              <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-xl">
+              <p className="text-center text-sm sm:text-base lg:text-left lg:text-lg text-white/80 max-w-xl">
                 Every voyage is crafted with intention. Every moment,
                 unforgettable.
               </p>
-              <div className="flex items-center gap-4">
+              <div className="flex justify-center lg:justify-start items-center gap-4">
                 <CustomButton btnName="Book Now" isLink href={whatsappHref} />
               </div>
             </div>
