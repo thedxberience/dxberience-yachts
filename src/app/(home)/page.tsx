@@ -5,7 +5,6 @@ import MostBookedYacht from "./(sections)/MostBookedYacht";
 import WhyBookWithUs from "./(sections)/WhyBookWithUs";
 import AboutUs from "./(sections)/AboutUs";
 import RatingsSection from "@/components/RatingsSection";
-import FreeGuideSection from "./(sections)/FreeGuideSection";
 
 export default function Home() {
   return (
@@ -16,7 +15,6 @@ export default function Home() {
       <WhyBookWithUs />
       <AboutUs />
       <RatingsSection />
-      <FreeGuideSection />
       <Footer />
     </main>
   );

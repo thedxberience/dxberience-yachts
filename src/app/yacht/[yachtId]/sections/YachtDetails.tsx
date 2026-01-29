@@ -127,7 +127,9 @@ const YachtDetails = ({
                   />
                 </Link>
                 <Link
-                  href={`https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+the+${yachtName}+yachts+for+rent`}
+                  href={`https://api.whatsapp.com/send/?phone=971585787558&text=${encodeURIComponent(
+                    `Hello, I'm interested in the ${yachtName} yacht for rent`
+                  )}`}
                 >
                   <Image
                     src={"/footer_whatsapp.svg"}

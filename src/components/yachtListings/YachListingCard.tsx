@@ -110,7 +110,9 @@ const YachListingCard = ({
                   />
                 </a>
                 <a
-                  href={`https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+the+${name}+yachts+for+rent`}
+                  href={`https://api.whatsapp.com/send/?phone=971585787558&text=${encodeURIComponent(
+                    `Hello, I'm interested in the ${name} yacht for rent`
+                  )}`}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-black/20"
                 >
                   <Image

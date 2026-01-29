@@ -30,7 +30,7 @@ const Header = () => {
               <CustomButton
                 btnName="See our yachts"
                 isLink
-                href="https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+your+yachts+for+rent"
+                href="/yachts"
               />
             </div>
           </div>

@@ -104,7 +104,11 @@ const MostBookedYacht = () => {
                           height={28}
                         />
                       </a>
-                      <a href="https://api.whatsapp.com/send/?phone=971585787558&text=Hello%2C+I%27m+interested+in+your+yachts+for+rent">
+                      <a
+                        href={`https://api.whatsapp.com/send/?phone=971585787558&text=${encodeURIComponent(
+                          `Hello, I'm interested in the ${yacht.name} yacht for rent`
+                        )}`}
+                      >
                         <Image
                           src="/footer_whatsapp.svg"
                           alt="WhatsApp"
@@ -115,7 +119,13 @@ const MostBookedYacht = () => {
                     </div>
                   </div>
                   <div>
-                    <CustomButton btnName="Book Now" isLink href="/#contact" />
+                    <CustomButton
+                      btnName="Book Now"
+                      isLink
+                      href={`https://api.whatsapp.com/send/?phone=971585787558&text=${encodeURIComponent(
+                        `Hello, I'm interested in the ${yacht.name} yacht for rent`
+                      )}`}
+                    />
                   </div>
                 </div>
               </div>
