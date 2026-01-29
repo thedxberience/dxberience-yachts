@@ -15,7 +15,8 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
   const [allYachts, setAllYachts] = useState(data);
   const [loading, setLoading] = useState(false);
   const [sortCommand, setSortCommand] = useState("desc");
-  const [filterCommand, setFilterCommand] = useState("");
+  const [budgetCommand, setBudgetCommand] = useState("");
+  const [capacityCommand, setCapacityCommand] = useState("");
 
   const budgetFilters = [
     { label: "All", value: "" },
@@ -31,19 +32,37 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
   ];
 
   const [isPriceOpen, setIsPriceOpen] = useState(false);
+  const [isCapacityOpen, setIsCapacityOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const priceMenuRef = useRef<HTMLDetailsElement | null>(null);
+  const capacityMenuRef = useRef<HTMLDetailsElement | null>(null);
   const sortMenuRef = useRef<HTMLDetailsElement | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 9;
+  const [capacityLabel, setCapacityLabel] = useState("Capacity");
+  const currentBudgetLabel =
+    budgetFilters.find((filter) => filter.value === budgetCommand)?.label ??
+    "Price";
+  const currentSortLabel =
+    sortFilters.find((filter) => filter.value === sortCommand)?.label ?? "Sort";
+
+  const capacityFilters = [
+    { label: "All", value: "" },
+    { label: "Up to 10 Guests", value: "capacityMin=1&capacityMax=10" },
+    { label: "11 - 20 Guests", value: "capacityMin=11&capacityMax=20" },
+    { label: "21 - 30 Guests", value: "capacityMin=21&capacityMax=30" },
+    { label: "31+ Guests", value: "capacityMin=31" },
+  ];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       const clickedPrice = priceMenuRef.current?.contains(target);
+      const clickedCapacity = capacityMenuRef.current?.contains(target);
       const clickedSort = sortMenuRef.current?.contains(target);
-      if (!clickedPrice && !clickedSort) {
+      if (!clickedPrice && !clickedCapacity && !clickedSort) {
         setIsPriceOpen(false);
+        setIsCapacityOpen(false);
         setIsSortOpen(false);
       }
     };
@@ -189,27 +208,63 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     setYachtData(result);
   };
 
+  const buildFilterCommand = (
+    nextBudget: string,
+    nextCapacity: string
+  ): string => {
+    if (nextBudget && nextCapacity) {
+      return `${nextBudget}&${nextCapacity}`;
+    }
+    return nextBudget || nextCapacity || "";
+  };
+
+  const currentFilterCommand = useMemo(
+    () => buildFilterCommand(budgetCommand, capacityCommand),
+    [budgetCommand, capacityCommand]
+  );
+
   const handleSortChange = (sort: "asc" | "desc") => {
     setSortCommand(sort);
     handleFilterSortYachtLisitings({
       sort,
-      filter: filterCommand,
+      filter: currentFilterCommand,
     });
   };
 
   const handleBudgetChange = (filter: string) => {
-    setFilterCommand(filter);
+    setBudgetCommand(filter);
     handleFilterSortYachtLisitings({
       sort: sortCommand as "asc" | "desc",
-      filter,
+      filter: buildFilterCommand(filter, capacityCommand),
     });
   };
 
   const handleResetBudget = () => {
-    setFilterCommand("");
+    setBudgetCommand("");
     handleFilterSortYachtLisitings({
       sort: sortCommand as "asc" | "desc",
-      filter: "",
+      filter: buildFilterCommand("", capacityCommand),
+    });
+  };
+
+  const handleCapacityChange = (filter: string) => {
+    setCapacityCommand(filter);
+    const selectedLabel =
+      capacityFilters.find((item) => item.value === filter)?.label ??
+      "Capacity";
+    setCapacityLabel(selectedLabel);
+    handleFilterSortYachtLisitings({
+      sort: sortCommand as "asc" | "desc",
+      filter: buildFilterCommand(budgetCommand, filter),
+    });
+  };
+
+  const handleResetCapacity = () => {
+    setCapacityCommand("");
+    setCapacityLabel("Capacity");
+    handleFilterSortYachtLisitings({
+      sort: sortCommand as "asc" | "desc",
+      filter: buildFilterCommand(budgetCommand, ""),
     });
   };
 
@@ -217,12 +272,13 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     setSortCommand("desc");
     handleFilterSortYachtLisitings({
       sort: "desc",
-      filter: filterCommand,
+      filter: currentFilterCommand,
     });
   };
 
   const closeMenu = () => {
     setIsPriceOpen(false);
+    setIsCapacityOpen(false);
     setIsSortOpen(false);
   };
 
@@ -257,10 +313,11 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
                 event.preventDefault();
                 setIsPriceOpen((prev) => !prev);
                 setIsSortOpen(false);
+                setIsCapacityOpen(false);
               }}
               className="cursor-pointer list-none rounded-full border border-black/30 px-4 py-2 text-xs uppercase tracking-[0.2em] text-secondary"
             >
-              Price
+              {currentBudgetLabel}
             </summary>
             <div className="absolute left-0 z-10 mt-2 w-[260px] rounded-2xl border border-black/10 bg-white p-3 shadow-lg">
               <div className="flex items-center justify-between border-b border-black/10 pb-2 text-xs uppercase tracking-[0.2em] text-secondary">
@@ -277,7 +334,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
               </div>
               <div className="flex flex-col gap-2 pt-3">
                 {budgetFilters.map((filter) => {
-                  const isActive = filterCommand === filter.value;
+                  const isActive = budgetCommand === filter.value;
                   return (
                     <button
                       key={filter.label}
@@ -298,16 +355,70 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
             </div>
           </details>
 
+          <details
+            ref={capacityMenuRef}
+            open={isCapacityOpen}
+            className="relative"
+          >
+            <summary
+              onClick={(event) => {
+                event.preventDefault();
+                setIsCapacityOpen((prev) => !prev);
+                setIsPriceOpen(false);
+                setIsSortOpen(false);
+              }}
+              className="cursor-pointer list-none rounded-full border border-black/30 px-4 py-2 text-xs uppercase tracking-[0.2em] text-secondary"
+            >
+              {capacityLabel}
+            </summary>
+            <div className="absolute left-0 z-10 mt-2 w-[240px] rounded-2xl border border-black/10 bg-white p-3 shadow-lg">
+              <div className="flex items-center justify-between border-b border-black/10 pb-2 text-xs uppercase tracking-[0.2em] text-secondary">
+                <span>Capacity</span>
+                <button
+                  onClick={() => {
+                    handleResetCapacity();
+                    closeMenu();
+                  }}
+                  className="text-primary"
+                >
+                  Reset
+                </button>
+              </div>
+              <div className="flex flex-col gap-2 pt-3">
+                {capacityFilters.map((filter) => {
+                  const isActive = capacityCommand === filter.value;
+                  return (
+                    <button
+                      key={filter.label}
+                      onClick={() => {
+                        handleCapacityChange(filter.value);
+                        closeMenu();
+                      }}
+                      className={`rounded-full border px-3 py-2 text-left text-xs ${
+                        isActive
+                          ? "border-black bg-black text-white"
+                          : "border-black/20 text-secondary"
+                      }`}
+                    >
+                      {filter.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </details>
+
           <details ref={sortMenuRef} open={isSortOpen} className="relative">
             <summary
               onClick={(event) => {
                 event.preventDefault();
                 setIsSortOpen((prev) => !prev);
                 setIsPriceOpen(false);
+                setIsCapacityOpen(false);
               }}
               className="cursor-pointer list-none rounded-full border border-black/30 px-4 py-2 text-xs uppercase tracking-[0.2em] text-secondary"
             >
-              Sort
+              {currentSortLabel}
             </summary>
             <div className="absolute left-0 z-10 mt-2 w-[220px] rounded-2xl border border-black/10 bg-white p-3 shadow-lg">
               <div className="flex items-center justify-between border-b border-black/10 pb-2 text-xs uppercase tracking-[0.2em] text-secondary">
