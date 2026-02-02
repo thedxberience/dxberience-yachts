@@ -31,17 +31,22 @@ const YachtCarousel = ({
     onNextButtonClick,
   } = usePrevNextButtons(emblaApi);
 
+  const galleryItems = carouselGallery ?? [];
+
   return (
-    <section className="w-full h-full flex justify-center items-center my-14">
+    <section className="w-full h-full bg-[#f6f4f1] py-16 lg:py-24">
       <div className="section-container w-full h-full flex justify-center items-center flex-col">
-        <div className="section-header w-11/12 lg:w-9/12 flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-0">
+        <div className="section-header w-11/12 lg:w-9/12 flex flex-col lg:flex-row justify-between gap-8 lg:gap-0">
           <div className="header lg:w-5/12">
-            <h3 className="text-5xl lg:text-8xl font-IvyPresto ">
+            <p className="text-xs uppercase tracking-[0.3em] text-secondary">
+              Gallery
+            </p>
+            <h3 className="mt-4 text-4xl lg:text-7xl font-IvyPresto text-primary">
               {carouselHeader}
             </h3>
           </div>
           <div className="yacht-description text-sm text-secondary lg:w-6/12">
-            <p>{carouselDescription}</p>
+            <p className="leading-relaxed">{carouselDescription}</p>
           </div>
         </div>
         <div className="flex justify-start items-center gap-2 w-10/12 my-10">
@@ -57,22 +62,28 @@ const YachtCarousel = ({
           />
         </div>
         <div className="yacht-carousel-container">
-          <Carousel emblaRef={emblaARef}>
-            {carouselGallery?.map((image, index) => {
-              const galleryLength = carouselGallery.length;
-              const currentGalleryIndex = index + 1;
-              return (
-                <div key={currentGalleryIndex} className="embla__slide z-10">
-                  <YachtCarouselImage
-                    currentGalleryIndex={currentGalleryIndex}
-                    galleryLength={galleryLength}
-                    imageUrl={image.image}
-                    imageAlt={image.altText || "Yacht image on carousel"}
-                  />
-                </div>
-              );
-            })}
-          </Carousel>
+          {galleryItems.length ? (
+            <Carousel emblaRef={emblaARef}>
+              {galleryItems.map((image, index) => {
+                const galleryLength = galleryItems.length;
+                const currentGalleryIndex = index + 1;
+                return (
+                  <div key={currentGalleryIndex} className="embla__slide z-10">
+                    <YachtCarouselImage
+                      currentGalleryIndex={currentGalleryIndex}
+                      galleryLength={galleryLength}
+                      imageUrl={image.image}
+                      imageAlt={image.altText || "Yacht image on carousel"}
+                    />
+                  </div>
+                );
+              })}
+            </Carousel>
+          ) : (
+            <div className="flex min-h-[240px] items-center justify-center rounded-3xl border border-dashed border-secondary/40 bg-white/60 px-8 text-center text-sm text-secondary">
+              Gallery imagery will be added soon.
+            </div>
+          )}
         </div>
       </div>
     </section>
