@@ -9,19 +9,27 @@ export async function GET(request: NextRequest){
     const sortParam = searchParams.get('sort');
     const min = searchParams.get('min');
     const max = searchParams.get('max');
-    const budgetFilter: string[] = [];
+    const capacityMin = searchParams.get('capacityMin');
+    const capacityMax = searchParams.get('capacityMax');
+    const filters: string[] = [];
     if(min) {
-        budgetFilter.push(`prices[0].price >= ${min}`);
+        filters.push(`prices[0].price >= ${min}`);
     }
     if(max && max !== "0") {
-        budgetFilter.push(`prices[0].price <= ${max}`);
+        filters.push(`prices[0].price <= ${max}`);
+    }
+    if(capacityMin) {
+        filters.push(`capacity >= ${capacityMin}`);
+    }
+    if(capacityMax && capacityMax !== "0") {
+        filters.push(`capacity <= ${capacityMax}`);
     }
     if (sortParam && !validSortOptions.includes(sortParam)) {
         return NextResponse.json({ error: "Invalid sort parameter" }, { status: 400 });
     }
 
     const sort = sortParam || 'asc';
-    const { data: result, error } = await getAll(sort as "asc" | "desc", budgetFilter);
+    const { data: result, error } = await getAll(sort as "asc" | "desc", filters);
 
     if(error){
         return NextResponse.json({error: error.message}, {status: 500});

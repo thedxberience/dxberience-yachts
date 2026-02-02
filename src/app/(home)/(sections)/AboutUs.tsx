@@ -33,6 +33,8 @@ const AboutUs = () => {
               adventure while you immerse yourself in the ultimate
               sophistication and comfort on the open sea.
             </p>
+
+
           </div>
 
           {/* Key Features */}
