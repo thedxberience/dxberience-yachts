@@ -1,9 +1,7 @@
 // "use client";
 import Footer from "@/components/shared/Footer";
 import YachtDetailPageHeader from "./sections/header";
-import YachtDescription from "./sections/YachtDescription";
-import YachtDetails from "./sections/YachtDetails";
-import YachtCarousel from "./sections/YachtCarousel";
+import YachtFaqs from "./sections/YachtFaqs";
 import { Suspense } from "react";
 import Image from "next/image";
 import { Yacht } from "@/data/types";
@@ -93,27 +91,9 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
           yachtDescription={data.formDescription}
           yachtImageUrl={url}
           yachtImageAlt={altText}
+          gallery={data.gallery}
         />
-        <YachtDescription
-          yachtName={data.name}
-          yachtDescription={data.mainDescription}
-          yachtImageUrl={url}
-          yachtImageAlt={altText}
-        />
-        <YachtDetails
-          buildDate={data.buildDate}
-          cabins={data.cabins}
-          capacity={data.capacity}
-          prices={data.prices}
-          description={data.shortDescription}
-          length={data.length}
-          yachtName={data.name}
-        />
-        <YachtCarousel
-          carouselHeader={data.moreDetailsTitle}
-          carouselDescription={data.moreDetails}
-          carouselGallery={data.gallery}
-        />
+        <YachtFaqs />
       </Suspense>
       <Footer />
     </main>
