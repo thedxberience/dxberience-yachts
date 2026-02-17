@@ -1,7 +1,7 @@
 import Navbar from "@/components/shared/Navbar";
-import BookingForm from "@/components/yacht/BookingForm";
 import { prices } from "@/data/types";
 import Image from "next/image";
+import Link from "next/link";
 
 type YachtDetailPageHeaderProps = {
   yachtName: string;
@@ -17,9 +17,11 @@ const YachtDetailPageHeader = ({
   yachtImageAlt,
   yachtImageUrl,
   yachtDescription,
-  slug,
-  prices,
 }: YachtDetailPageHeaderProps) => {
+  const whatsappMessage = encodeURIComponent(
+    `Hello, I'm interested in the ${yachtName} yacht for rent. Could you share availability and packages?`
+  );
+
   return (
     <header className="yacht-detail-page w-full min-h-[100svh] h-full md:min-h-[750px] md:h-[800px]">
       <Navbar />
@@ -35,25 +37,26 @@ const YachtDetailPageHeader = ({
         </div>
       </div>
       <div className="main-content nav-offset w-full h-full flex justify-center items-center">
-        <div className="w-11/12 h-full flex justify-center items-center">
-          <div className="relative hidden xl:flex w-[73.906vw] h-[55vh] overflow-hidden">
-            <Image
-              src={yachtImageUrl}
-              alt={yachtImageAlt || "Yacht image"}
-              fill
-              className="object-cover yacht-header-img"
-            />
-          </div>
-          <div
-            id="header-form"
-            className="header-form-container w-full xl:w-[681px] h-full flex flex-col justify-center items-start gap-6 xl:-ml-28"
-          >
-            <BookingForm
-              slug={slug}
-              yachtName={yachtName}
-              yachtDescription={yachtDescription}
-              prices={prices}
-            />
+        <div className="w-11/12 max-w-[1150px] flex flex-col items-start justify-center gap-6 text-white">
+          <p className="uppercase tracking-[0.25em] text-xs md:text-sm">Private Yacht Charter</p>
+          <h1 className="font-IvyPresto text-5xl md:text-7xl leading-tight max-w-3xl">{yachtName}</h1>
+          <p className="text-sm md:text-base max-w-2xl text-white/90">{yachtDescription}</p>
+          <div id="header-whatsapp-cta" className="mt-2">
+            <Link
+              href={`https://api.whatsapp.com/send/?phone=971585787558&text=${whatsappMessage}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-[#2A8C6C] hover:bg-[#22745a] transition-colors duration-300 px-7 py-4 uppercase tracking-[0.15em] text-xs md:text-sm font-medium"
+            >
+              <Image
+                src="/images/whatsapp.png"
+                alt="WhatsApp"
+                width={22}
+                height={22}
+                className="object-contain"
+              />
+              Chat on WhatsApp
+            </Link>
           </div>
         </div>
       </div>
