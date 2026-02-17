@@ -1,17 +1,12 @@
-// "use client";
 import Footer from "@/components/shared/Footer";
 import YachtDetailPageHeader from "./sections/header";
-import YachtDescription from "./sections/YachtDescription";
-import YachtDetails from "./sections/YachtDetails";
-import YachtCarousel from "./sections/YachtCarousel";
 import { Suspense } from "react";
 import Image from "next/image";
 import { Yacht } from "@/data/types";
 import { tryCatch } from "@/app/utils/helpers";
 import { getAll, getBySlug } from "@/app/api/yachts/service";
+import YachtGalleryAndFaq from "./sections/YachtGalleryAndFaq";
 
-// Next.js will invalidate the cache when a
-// request comes in, at most once every 60 seconds.
 export const revalidate = 60;
 
 export async function generateStaticParams() {
@@ -39,7 +34,6 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
   const { data, error } = await tryCatch(getBySlug(yachtId));
 
   if (error) {
-    // Handle the error appropriately
     console.error("Error loading yacht details:", error);
     return (
       <div className="w-full h-screen bg-primary flex flex-col justify-center items-center">
@@ -58,8 +52,6 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
     );
   }
 
-  // console.log("Yacht data:", data);
-
   if (!data || Object.keys(data).length === 0) {
     return (
       <div className="w-full h-screen bg-primary flex flex-col justify-center items-center">
@@ -71,9 +63,7 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
             className="object-cover animate-pulse"
           />
         </div>
-        <p className="text-white text-lg font-semibold">
-          No yacht data available.
-        </p>
+        <p className="text-white text-lg font-semibold">No yacht data available.</p>
       </div>
     );
   }
@@ -94,25 +84,13 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
           yachtImageUrl={url}
           yachtImageAlt={altText}
         />
-        <YachtDescription
+        <YachtGalleryAndFaq
           yachtName={data.name}
-          yachtDescription={data.mainDescription}
-          yachtImageUrl={url}
-          yachtImageAlt={altText}
-        />
-        <YachtDetails
-          buildDate={data.buildDate}
-          cabins={data.cabins}
-          capacity={data.capacity}
-          prices={data.prices}
-          description={data.shortDescription}
-          length={data.length}
-          yachtName={data.name}
-        />
-        <YachtCarousel
-          carouselHeader={data.moreDetailsTitle}
-          carouselDescription={data.moreDetails}
-          carouselGallery={data.gallery}
+          gallery={data.gallery}
+          fallbackImage={{
+            image: url,
+            altText: altText || `${data.name} yacht image`,
+          }}
         />
       </Suspense>
       <Footer />
