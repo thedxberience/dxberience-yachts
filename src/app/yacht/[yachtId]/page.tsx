@@ -20,7 +20,9 @@ export async function generateStaticParams() {
   const yachtSlugs: { yachtId: string }[] = [];
 
   yachts.forEach((yacht) => {
-    if (yacht.slug) {
+    const hasValidThumbnail = Boolean(yacht?.thumbnail?.image);
+
+    if (yacht.slug && hasValidThumbnail) {
       yachtSlugs.push({ yachtId: yacht.slug });
     }
   });
@@ -68,10 +70,9 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
     );
   }
 
-  const { image: url, altText } = data.thumbnail || {
-    image: null,
-    altText: null,
-  };
+  const fallbackYachtImage = "/images/yachts_hero_img.jpeg";
+  const url = data?.thumbnail?.image || fallbackYachtImage;
+  const altText = data?.thumbnail?.altText || `${data.name} yacht image`;
 
   return (
     <main className="w-full h-full">
@@ -89,7 +90,7 @@ const page = async ({ params }: { params: Promise<{ yachtId: string }> }) => {
           gallery={data.gallery}
           fallbackImage={{
             image: url,
-            altText: altText || `${data.name} yacht image`,
+            altText,
           }}
         />
       </Suspense>

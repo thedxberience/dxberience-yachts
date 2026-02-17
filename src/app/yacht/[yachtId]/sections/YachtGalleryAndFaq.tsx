@@ -4,14 +4,17 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 
 type GalleryItem = {
-  image: string;
-  altText: string;
+  image?: string | null;
+  altText?: string | null;
 };
 
 type YachtGalleryAndFaqProps = {
   yachtName: string;
-  gallery: GalleryItem[];
-  fallbackImage: GalleryItem;
+  gallery?: GalleryItem[];
+  fallbackImage: {
+    image: string;
+    altText: string;
+  };
 };
 
 const FAQ_ITEMS = [
@@ -48,15 +51,23 @@ const YachtGalleryAndFaq = ({
   fallbackImage,
 }: YachtGalleryAndFaqProps) => {
   const imageGallery = useMemo(() => {
-    if (gallery?.length) {
-      return gallery;
+    const sanitizedGallery =
+      gallery
+        ?.filter((item) => Boolean(item?.image))
+        .map((item) => ({
+          image: item.image as string,
+          altText: item.altText || `${yachtName} gallery image`,
+        })) || [];
+
+    if (sanitizedGallery.length) {
+      return sanitizedGallery;
     }
 
     return [fallbackImage];
-  }, [gallery, fallbackImage]);
+  }, [gallery, fallbackImage, yachtName]);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const selectedImage = imageGallery[selectedImageIndex];
+  const selectedImage = imageGallery[selectedImageIndex] || fallbackImage;
 
   return (
     <section className="w-full flex flex-col items-center my-14 lg:my-24">
