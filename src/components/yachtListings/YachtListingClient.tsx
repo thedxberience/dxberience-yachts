@@ -11,7 +11,7 @@ type YachtListingClientProps = {
 };
 
 type SortOrder = "asc" | "desc";
-type SortBy = "price" | "_updated";
+type SortBy = "price" | "_updatedAt";
 type SortFilterValue =
   | "price_desc"
   | "price_asc"
@@ -50,13 +50,13 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     {
       label: "Newest First",
       value: "updated_desc" as SortFilterValue,
-      sortBy: "_updated" as SortBy,
+      sortBy: "_updatedAt" as SortBy,
       sortOrder: "desc" as SortOrder,
     },
     {
       label: "Oldest First",
       value: "updated_asc" as SortFilterValue,
-      sortBy: "_updated" as SortBy,
+      sortBy: "_updatedAt" as SortBy,
       sortOrder: "asc" as SortOrder,
     },
   ];
@@ -316,7 +316,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     setSortCommand("updated_desc");
     handleFilterSortYachtLisitings({
       sortOrder: "desc",
-      sortBy: "_updated",
+      sortBy: "_updatedAt",
       filter: currentFilterCommand,
     });
   };
@@ -440,8 +440,8 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
                         closeMenu();
                       }}
                       className={`rounded-full border px-3 py-2 text-left text-xs ${isActive
-                          ? "border-black bg-black text-white"
-                          : "border-black/20 text-secondary"
+                        ? "border-black bg-black text-white"
+                        : "border-black/20 text-secondary"
                         }`}
                     >
                       {filter.label}
