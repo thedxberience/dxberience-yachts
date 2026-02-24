@@ -1,6 +1,9 @@
 import { tryCatch } from "@/app/utils/helpers";
 import { generateGroqQuery, sanityClient } from "../sanity/sanity";
 
+type SortOrder = "asc" | "desc";
+type SortBy = "price" | "_updated";
+
 export async function getBySlug(slug: string){
     const groqQuery = generateGroqQuery({
         document: 'yachts',
@@ -38,12 +41,13 @@ export async function getBySlug(slug: string){
       return result[0];
 }
 
-export async function getAll(sort: "asc" | "desc" = "asc", filter?: string[]){
-    let sortCommand = ['order(prices[0].price asc)'];
-
-    if (sort == "desc"){
-      sortCommand = ['order(prices[0].price desc)']; 
-    }
+export async function getAll(
+  sortOrder: SortOrder = "desc",
+  filter?: string[],
+  sortBy: SortBy = "_updated"
+){
+    const sortField = sortBy === "_updated" ? "_updatedAt" : "prices[0].price";
+    const sortCommand = [`order(${sortField} ${sortOrder})`];
 
     const groqQuery = generateGroqQuery({
         document: 'yachts',

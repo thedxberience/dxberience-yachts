@@ -187,7 +187,8 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     filter?: string;
   }) => {
     const url = new URL("/api/yachts", window.location.origin);
-    url.searchParams.set("sort", sort);
+    url.searchParams.set("sortOrder", sort);
+    url.searchParams.set("sortBy", "price");
     if (filter) {
       const filterParams = new URLSearchParams(filter);
       filterParams.forEach((value, key) => {
