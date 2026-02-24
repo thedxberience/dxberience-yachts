@@ -9,7 +9,6 @@ export async function GET(request: NextRequest){
     const validSortByOptions = ['price', '_updated'];
     const sortOrderParam = searchParams.get('sortOrder') ?? searchParams.get('sort');
     const sortByParam = searchParams.get('sortBy');
-    const hasSortOrderInput = searchParams.has('sortOrder') || searchParams.has('sort');
     const min = searchParams.get('min');
     const max = searchParams.get('max');
     const capacityMin = searchParams.get('capacityMin');
@@ -35,9 +34,7 @@ export async function GET(request: NextRequest){
     }
 
     const sortOrder = (sortOrderParam || 'desc') as "asc" | "desc";
-    const sortBy = (
-      sortByParam || (hasSortOrderInput ? 'price' : '_updated')
-    ) as "price" | "_updated";
+    const sortBy = (sortByParam || '_updated') as "price" | "_updated";
     const { data: result, error } = await getAll(sortOrder, filters, sortBy);
 
     if(error){

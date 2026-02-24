@@ -10,11 +10,19 @@ type YachtListingClientProps = {
   data: Yacht[] | any;
 };
 
+type SortOrder = "asc" | "desc";
+type SortBy = "price" | "_updated";
+type SortFilterValue =
+  | "price_desc"
+  | "price_asc"
+  | "updated_desc"
+  | "updated_asc";
+
 const YachtListingClient = ({ data }: YachtListingClientProps) => {
   const [yachtData, setYachtData] = useState(data);
   const [allYachts, setAllYachts] = useState(data);
   const [loading, setLoading] = useState(false);
-  const [sortCommand, setSortCommand] = useState("desc");
+  const [sortCommand, setSortCommand] = useState<SortFilterValue>("updated_desc");
   const [budgetCommand, setBudgetCommand] = useState("");
   const [capacityCommand, setCapacityCommand] = useState("");
 
@@ -27,8 +35,30 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
   ];
 
   const sortFilters = [
-    { label: "Price: High to Low", value: "desc" },
-    { label: "Price: Low to High", value: "asc" },
+    {
+      label: "Price: High to Low",
+      value: "price_desc" as SortFilterValue,
+      sortBy: "price" as SortBy,
+      sortOrder: "desc" as SortOrder,
+    },
+    {
+      label: "Price: Low to High",
+      value: "price_asc" as SortFilterValue,
+      sortBy: "price" as SortBy,
+      sortOrder: "asc" as SortOrder,
+    },
+    {
+      label: "Newest First",
+      value: "updated_desc" as SortFilterValue,
+      sortBy: "_updated" as SortBy,
+      sortOrder: "desc" as SortOrder,
+    },
+    {
+      label: "Oldest First",
+      value: "updated_asc" as SortFilterValue,
+      sortBy: "_updated" as SortBy,
+      sortOrder: "asc" as SortOrder,
+    },
   ];
 
   const [isPriceOpen, setIsPriceOpen] = useState(false);
@@ -45,6 +75,8 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     "Price";
   const currentSortLabel =
     sortFilters.find((filter) => filter.value === sortCommand)?.label ?? "Sort";
+  const currentSortFilter =
+    sortFilters.find((filter) => filter.value === sortCommand) ?? sortFilters[2];
 
   const capacityFilters = [
     { label: "All", value: "" },
@@ -180,15 +212,17 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
   };
 
   const handleFilterSortYachtLisitings = async ({
-    sort,
+    sortOrder,
+    sortBy,
     filter,
   }: {
-    sort: "asc" | "desc";
+    sortOrder: SortOrder;
+    sortBy: SortBy;
     filter?: string;
   }) => {
     const url = new URL("/api/yachts", window.location.origin);
-    url.searchParams.set("sortOrder", sort);
-    url.searchParams.set("sortBy", "price");
+    url.searchParams.set("sortOrder", sortOrder);
+    url.searchParams.set("sortBy", sortBy);
     if (filter) {
       const filterParams = new URLSearchParams(filter);
       filterParams.forEach((value, key) => {
@@ -224,10 +258,15 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     [budgetCommand, capacityCommand]
   );
 
-  const handleSortChange = (sort: "asc" | "desc") => {
+  const handleSortChange = (sort: SortFilterValue) => {
+    const selectedSortFilter = sortFilters.find((filter) => filter.value === sort);
+    if (!selectedSortFilter) {
+      return;
+    }
     setSortCommand(sort);
     handleFilterSortYachtLisitings({
-      sort,
+      sortOrder: selectedSortFilter.sortOrder,
+      sortBy: selectedSortFilter.sortBy,
       filter: currentFilterCommand,
     });
   };
@@ -235,7 +274,8 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
   const handleBudgetChange = (filter: string) => {
     setBudgetCommand(filter);
     handleFilterSortYachtLisitings({
-      sort: sortCommand as "asc" | "desc",
+      sortOrder: currentSortFilter.sortOrder,
+      sortBy: currentSortFilter.sortBy,
       filter: buildFilterCommand(filter, capacityCommand),
     });
   };
@@ -243,7 +283,8 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
   const handleResetBudget = () => {
     setBudgetCommand("");
     handleFilterSortYachtLisitings({
-      sort: sortCommand as "asc" | "desc",
+      sortOrder: currentSortFilter.sortOrder,
+      sortBy: currentSortFilter.sortBy,
       filter: buildFilterCommand("", capacityCommand),
     });
   };
@@ -255,7 +296,8 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
       "Capacity";
     setCapacityLabel(selectedLabel);
     handleFilterSortYachtLisitings({
-      sort: sortCommand as "asc" | "desc",
+      sortOrder: currentSortFilter.sortOrder,
+      sortBy: currentSortFilter.sortBy,
       filter: buildFilterCommand(budgetCommand, filter),
     });
   };
@@ -264,15 +306,17 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     setCapacityCommand("");
     setCapacityLabel("Capacity");
     handleFilterSortYachtLisitings({
-      sort: sortCommand as "asc" | "desc",
+      sortOrder: currentSortFilter.sortOrder,
+      sortBy: currentSortFilter.sortBy,
       filter: buildFilterCommand(budgetCommand, ""),
     });
   };
 
   const handleResetSort = () => {
-    setSortCommand("desc");
+    setSortCommand("updated_desc");
     handleFilterSortYachtLisitings({
-      sort: "desc",
+      sortOrder: "desc",
+      sortBy: "_updated",
       filter: currentFilterCommand,
     });
   };
@@ -395,11 +439,10 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
                         handleCapacityChange(filter.value);
                         closeMenu();
                       }}
-                      className={`rounded-full border px-3 py-2 text-left text-xs ${
-                        isActive
+                      className={`rounded-full border px-3 py-2 text-left text-xs ${isActive
                           ? "border-black bg-black text-white"
                           : "border-black/20 text-secondary"
-                      }`}
+                        }`}
                     >
                       {filter.label}
                     </button>
@@ -423,7 +466,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
             </summary>
             <div className="absolute left-0 z-10 mt-2 w-[220px] rounded-2xl border border-black/10 bg-white p-3 shadow-lg">
               <div className="flex items-center justify-between border-b border-black/10 pb-2 text-xs uppercase tracking-[0.2em] text-secondary">
-                <span>Price</span>
+                <span>Sort By</span>
                 <button
                   onClick={() => {
                     handleResetSort();
@@ -441,7 +484,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
                     <button
                       key={filter.label}
                       onClick={() => {
-                        handleSortChange(filter.value as "asc" | "desc");
+                        handleSortChange(filter.value);
                         closeMenu();
                       }}
                       className={`rounded-full border px-3 py-2 text-left text-xs ${isActive

@@ -46,7 +46,7 @@ export async function getAll(
   filter?: string[],
   sortBy: SortBy = "_updated"
 ){
-    const sortField = sortBy === "_updated" ? "_updatedAt" : "prices[0].price";
+    const sortField = sortBy === "price" ? "prices[0].price" : "_updatedAt";
     const sortCommand = [`order(${sortField} ${sortOrder})`];
 
     const groqQuery = generateGroqQuery({
