@@ -6,7 +6,9 @@ import React from "react";
 export const revalidate = 60;
 
 const YachtListings = async () => {
-  const { data: yachtsReq, error } = await tryCatch(getAll("desc"));
+  const { data: yachtsReq, error } = await tryCatch(
+    getAll("desc", undefined, "_updated")
+  );
 
   if (error) {
     return (

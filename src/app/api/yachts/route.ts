@@ -4,9 +4,12 @@ import { getAll } from "./service";
 export async function GET(request: NextRequest){
     const searchParams = request.nextUrl.searchParams;
 
-    // Validate sort parameter
+    // Validate sort parameters
     const validSortOptions = ['asc', 'desc'];
-    const sortParam = searchParams.get('sort');
+    const validSortByOptions = ['price', '_updated'];
+    const sortOrderParam = searchParams.get('sortOrder') ?? searchParams.get('sort');
+    const sortByParam = searchParams.get('sortBy');
+    const hasSortOrderInput = searchParams.has('sortOrder') || searchParams.has('sort');
     const min = searchParams.get('min');
     const max = searchParams.get('max');
     const capacityMin = searchParams.get('capacityMin');
@@ -24,12 +27,18 @@ export async function GET(request: NextRequest){
     if(capacityMax && capacityMax !== "0") {
         filters.push(`capacity <= ${capacityMax}`);
     }
-    if (sortParam && !validSortOptions.includes(sortParam)) {
-        return NextResponse.json({ error: "Invalid sort parameter" }, { status: 400 });
+    if (sortOrderParam && !validSortOptions.includes(sortOrderParam)) {
+        return NextResponse.json({ error: "Invalid sortOrder parameter" }, { status: 400 });
+    }
+    if (sortByParam && !validSortByOptions.includes(sortByParam)) {
+        return NextResponse.json({ error: "Invalid sortBy parameter" }, { status: 400 });
     }
 
-    const sort = sortParam || 'asc';
-    const { data: result, error } = await getAll(sort as "asc" | "desc", filters);
+    const sortOrder = (sortOrderParam || 'desc') as "asc" | "desc";
+    const sortBy = (
+      sortByParam || (hasSortOrderInput ? 'price' : '_updated')
+    ) as "price" | "_updated";
+    const { data: result, error } = await getAll(sortOrder, filters, sortBy);
 
     if(error){
         return NextResponse.json({error: error.message}, {status: 500});
