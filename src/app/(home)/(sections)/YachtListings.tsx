@@ -8,11 +8,13 @@ export const revalidate = 60;
 const YachtListings = async () => {
   const { data: yachtsReq, error } = await tryCatch(getAll("desc"));
 
-  if (error) {
+  if (error || !yachtsReq || yachtsReq.error || !yachtsReq.data) {
+    const message = error?.message || yachtsReq?.error?.message || "Unknown error";
+
     return (
       <div className="text-center flex flex-col justify-center items-center w-full pt-6">
         <p>Oops! Something went wrong please try again later!</p>
-        <p>{error.message}</p>
+        <p>{message}</p>
       </div>
     );
   }

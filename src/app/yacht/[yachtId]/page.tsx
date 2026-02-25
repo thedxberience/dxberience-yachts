@@ -2,7 +2,6 @@ import Footer from "@/components/shared/Footer";
 import YachtDetailPageHeader from "./sections/header";
 import { Suspense } from "react";
 import Image from "next/image";
-import { Yacht } from "@/data/types";
 import { tryCatch } from "@/app/utils/helpers";
 import { getAll, getBySlug } from "@/app/api/yachts/service";
 import YachtGalleryAndFaq from "./sections/YachtGalleryAndFaq";
@@ -12,10 +11,11 @@ export const revalidate = 60;
 export async function generateStaticParams() {
   const { data: yachtsData, error: yachtError } = await tryCatch(getAll("asc"));
 
-  if (yachtError || !yachtsData) {
+  if (yachtError || !yachtsData || yachtsData.error || !yachtsData.data) {
     return [];
   }
-  const yachts: Yacht[] = yachtsData.data;
+
+  const yachts = yachtsData.data;
 
   const yachtSlugs: { yachtId: string }[] = [];
 
