@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAll } from "./service";
 
+const parseNumberParam = (value: string | null): number | undefined => {
+    if (value === null || value.trim() === "") {
+        return undefined;
+    }
+
+    const parsedValue = Number(value);
+    if (!Number.isFinite(parsedValue)) {
+        return NaN;
+    }
+
+    return parsedValue;
+};
+
 export async function GET(request: NextRequest){
     const searchParams = request.nextUrl.searchParams;
 
@@ -13,29 +26,41 @@ export async function GET(request: NextRequest){
     const max = searchParams.get('max');
     const capacityMin = searchParams.get('capacityMin');
     const capacityMax = searchParams.get('capacityMax');
-    const filters: string[] = [];
-    if(min) {
-        filters.push(`prices[0].price >= ${min}`);
-    }
-    if(max && max !== "0") {
-        filters.push(`prices[0].price <= ${max}`);
-    }
-    if(capacityMin) {
-        filters.push(`capacity >= ${capacityMin}`);
-    }
-    if(capacityMax && capacityMax !== "0") {
-        filters.push(`capacity <= ${capacityMax}`);
-    }
+    const parsedMin = parseNumberParam(min);
+    const parsedMax = max === "0" ? undefined : parseNumberParam(max);
+    const parsedCapacityMin = parseNumberParam(capacityMin);
+    const parsedCapacityMax = capacityMax === "0" ? undefined : parseNumberParam(capacityMax);
+
     if (sortOrderParam && !validSortOptions.includes(sortOrderParam)) {
         return NextResponse.json({ error: "Invalid sortOrder parameter" }, { status: 400 });
     }
     if (sortByParam && !validSortByOptions.includes(sortByParam)) {
         return NextResponse.json({ error: "Invalid sortBy parameter" }, { status: 400 });
     }
+    if (
+        Number.isNaN(parsedMin) ||
+        Number.isNaN(parsedMax) ||
+        Number.isNaN(parsedCapacityMin) ||
+        Number.isNaN(parsedCapacityMax)
+    ) {
+        return NextResponse.json(
+            { error: "Invalid numeric filter parameter(s)." },
+            { status: 400 }
+        );
+    }
 
     const sortOrder = (sortOrderParam || 'desc') as "asc" | "desc";
     const sortBy = (sortByParam || '_updated') as "price" | "_updated";
-    const { data: result, error } = await getAll(sortOrder, filters, sortBy);
+    const { data: result, error } = await getAll(
+        sortOrder,
+        {
+            min: parsedMin,
+            max: parsedMax,
+            capacityMin: parsedCapacityMin,
+            capacityMax: parsedCapacityMax,
+        },
+        sortBy
+    );
 
     if(error){
         return NextResponse.json({error: error.message}, {status: 500});
