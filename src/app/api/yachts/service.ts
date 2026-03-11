@@ -5,10 +5,10 @@ type SortOrder = "asc" | "desc";
 type SortBy = "price" | "_updated";
 
 type YachtFilters = {
-  min?: number;
-  max?: number;
-  capacityMin?: number;
-  capacityMax?: number;
+  priceGte?: number;
+  priceLte?: number;
+  capacityGte?: number;
+  capacityLte?: number;
 };
 
 type BackendPrice = {
@@ -111,18 +111,44 @@ const buildYachtsUrl = (
   url.searchParams.set("sortOrder", sortOrder);
   url.searchParams.set("sortBy", toSortField(sortBy));
 
-  if (typeof filter?.min === "number") {
-    url.searchParams.set("price__gte", String(filter.min));
+  if (typeof filter?.priceGte === "number") {
+    url.searchParams.set("price__gte", String(filter.priceGte));
   }
-  if (typeof filter?.max === "number") {
-    url.searchParams.set("price__lte", String(filter.max));
+  if (typeof filter?.priceLte === "number") {
+    url.searchParams.set("price__lte", String(filter.priceLte));
   }
-  if (typeof filter?.capacityMin === "number") {
-    url.searchParams.set("capacity__gte", String(filter.capacityMin));
+  if (typeof filter?.capacityGte === "number") {
+    url.searchParams.set("capacity__gte", String(filter.capacityGte));
   }
-  if (typeof filter?.capacityMax === "number") {
-    url.searchParams.set("capacity__lte", String(filter.capacityMax));
+  if (typeof filter?.capacityLte === "number") {
+    url.searchParams.set("capacity__lte", String(filter.capacityLte));
   }
+
+  return url.toString();
+};
+
+const buildYachtsUrlFromSearchParams = (searchParams: URLSearchParams): string => {
+  const url = new URL(`${YACHTS_BACKEND_BASE_URL}/yachts`);
+  const sortOrder = searchParams.get("sortOrder") || "desc";
+  const sortByInput = searchParams.get("sortBy");
+  const sortBy = sortByInput === "_updated" ? "_updatedAt" : sortByInput || "_updatedAt";
+
+  url.searchParams.set("sortOrder", sortOrder);
+  url.searchParams.set("sortBy", sortBy);
+
+  const supportedFilterKeys = [
+    "price__gte",
+    "price__lte",
+    "capacity__gte",
+    "capacity__lte",
+  ] as const;
+
+  supportedFilterKeys.forEach((key) => {
+    const value = searchParams.get(key);
+    if (value && value.trim() !== "") {
+      url.searchParams.set(key, value);
+    }
+  });
 
   return url.toString();
 };
@@ -217,4 +243,16 @@ export async function getAll(
     }
 
     return {data: result.map(mapYachtSummary), error: null};
+}
+
+export async function getAllBySearchParams(searchParams: URLSearchParams) {
+  const { data: result, error } = await tryCatch(
+    fetchBackend<BackendYacht[]>(buildYachtsUrlFromSearchParams(searchParams))
+  );
+
+  if (error) {
+    return { data: null, error };
+  }
+
+  return { data: result.map(mapYachtSummary), error: null };
 }

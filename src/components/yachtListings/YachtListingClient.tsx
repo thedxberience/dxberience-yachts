@@ -19,8 +19,12 @@ type SortFilterValue =
   | "updated_asc";
 
 const YachtListingClient = ({ data }: YachtListingClientProps) => {
-  const [yachtData, setYachtData] = useState(data);
-  const [allYachts, setAllYachts] = useState(data);
+  const [yachtData, setYachtData] = useState<Yacht[]>(
+    Array.isArray(data) ? data : []
+  );
+  const [allYachts, setAllYachts] = useState<Yacht[]>(
+    Array.isArray(data) ? data : []
+  );
   const [loading, setLoading] = useState(false);
   const [sortCommand, setSortCommand] = useState<SortFilterValue>("updated_desc");
   const [budgetCommand, setBudgetCommand] = useState("");
@@ -28,10 +32,10 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
 
   const budgetFilters = [
     { label: "All", value: "" },
-    { label: "AED 0 - 1,000", value: "min=0&max=1000" },
-    { label: "AED 1,000 - 5,000", value: "min=1000&max=5000" },
-    { label: "AED 5,000 - 10,000", value: "min=5000&max=10000" },
-    { label: "AED 10,000+", value: "min=10000" },
+    { label: "AED 0 - 1,000", value: "price__gte=0&price__lte=1000" },
+    { label: "AED 1,000 - 5,000", value: "price__gte=1000&price__lte=5000" },
+    { label: "AED 5,000 - 10,000", value: "price__gte=5000&price__lte=10000" },
+    { label: "AED 10,000+", value: "price__gte=10000" },
   ];
 
   const sortFilters = [
@@ -80,10 +84,10 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
 
   const capacityFilters = [
     { label: "All", value: "" },
-    { label: "Up to 10 Guests", value: "capacityMin=1&capacityMax=10" },
-    { label: "11 - 20 Guests", value: "capacityMin=11&capacityMax=20" },
-    { label: "21 - 30 Guests", value: "capacityMin=21&capacityMax=30" },
-    { label: "31+ Guests", value: "capacityMin=31" },
+    { label: "Up to 10 Guests", value: "capacity__gte=1&capacity__lte=10" },
+    { label: "11 - 20 Guests", value: "capacity__gte=11&capacity__lte=20" },
+    { label: "21 - 30 Guests", value: "capacity__gte=21&capacity__lte=30" },
+    { label: "31+ Guests", value: "capacity__gte=31" },
   ];
 
   useEffect(() => {
@@ -151,19 +155,7 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
     return pages;
   };
   const handleShowYachtListings = () => {
-    if (!yachtData || yachtData.length == 0) {
-      return (
-        <div className="flex justify-center items-center">
-          <p>No yachts listed at the moment. Kindly check back later.</p>
-        </div>
-      );
-    } else if (yachtData.error) {
-      return (
-        <div className="flex justify-center items-center">
-          <p>{yachtData.error}</p>
-        </div>
-      );
-    } else if (loading) {
+    if (loading) {
       return (
         <div className="flex justify-center items-center">
           <span className="animate-spin">
@@ -174,6 +166,14 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
               height={40}
             />
           </span>
+        </div>
+      );
+    }
+
+    if (!yachtData || yachtData.length == 0) {
+      return (
+        <div className="flex justify-center items-center">
+          <p>No yachts listed at the moment. Kindly check back later.</p>
         </div>
       );
     } else {
@@ -238,7 +238,8 @@ const YachtListingClient = ({ data }: YachtListingClientProps) => {
       console.error("Error sorting yachts:", sortedYachts.error);
       return;
     }
-    const { result } = await sortedYachts.data.json();
+    const payload = await sortedYachts.data.json();
+    const result = Array.isArray(payload?.result) ? payload.result : [];
     setAllYachts(result);
     setYachtData(result);
   };

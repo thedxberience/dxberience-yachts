@@ -1,35 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAll } from "./service";
+import { getAllBySearchParams } from "./service";
 
-const parseNumberParam = (value: string | null): number | undefined => {
+const isValidNumericParam = (value: string | null): boolean => {
     if (value === null || value.trim() === "") {
-        return undefined;
+        return true;
     }
 
     const parsedValue = Number(value);
-    if (!Number.isFinite(parsedValue)) {
-        return NaN;
-    }
-
-    return parsedValue;
+    return Number.isFinite(parsedValue);
 };
 
 export async function GET(request: NextRequest){
-    const searchParams = request.nextUrl.searchParams;
+    const searchParams = new URLSearchParams(request.nextUrl.searchParams);
 
     // Validate sort parameters
     const validSortOptions = ['asc', 'desc'];
-    const validSortByOptions = ['price', '_updated'];
-    const sortOrderParam = searchParams.get('sortOrder') ?? searchParams.get('sort');
+    const validSortByOptions = ['price', '_updated', '_updatedAt'];
+    const sortOrderParam = searchParams.get('sortOrder');
     const sortByParam = searchParams.get('sortBy');
-    const min = searchParams.get('min');
-    const max = searchParams.get('max');
-    const capacityMin = searchParams.get('capacityMin');
-    const capacityMax = searchParams.get('capacityMax');
-    const parsedMin = parseNumberParam(min);
-    const parsedMax = max === "0" ? undefined : parseNumberParam(max);
-    const parsedCapacityMin = parseNumberParam(capacityMin);
-    const parsedCapacityMax = capacityMax === "0" ? undefined : parseNumberParam(capacityMax);
 
     if (sortOrderParam && !validSortOptions.includes(sortOrderParam)) {
         return NextResponse.json({ error: "Invalid sortOrder parameter" }, { status: 400 });
@@ -37,30 +25,22 @@ export async function GET(request: NextRequest){
     if (sortByParam && !validSortByOptions.includes(sortByParam)) {
         return NextResponse.json({ error: "Invalid sortBy parameter" }, { status: 400 });
     }
-    if (
-        Number.isNaN(parsedMin) ||
-        Number.isNaN(parsedMax) ||
-        Number.isNaN(parsedCapacityMin) ||
-        Number.isNaN(parsedCapacityMax)
-    ) {
+
+    const numericParams = [
+        searchParams.get("price__gte"),
+        searchParams.get("price__lte"),
+        searchParams.get("capacity__gte"),
+        searchParams.get("capacity__lte"),
+    ];
+
+    if (numericParams.some((value) => !isValidNumericParam(value))) {
         return NextResponse.json(
             { error: "Invalid numeric filter parameter(s)." },
             { status: 400 }
         );
     }
 
-    const sortOrder = (sortOrderParam || 'desc') as "asc" | "desc";
-    const sortBy = (sortByParam || '_updated') as "price" | "_updated";
-    const { data: result, error } = await getAll(
-        sortOrder,
-        {
-            min: parsedMin,
-            max: parsedMax,
-            capacityMin: parsedCapacityMin,
-            capacityMax: parsedCapacityMax,
-        },
-        sortBy
-    );
+    const { data: result, error } = await getAllBySearchParams(searchParams);
 
     if(error){
         return NextResponse.json({error: error.message}, {status: 500});
